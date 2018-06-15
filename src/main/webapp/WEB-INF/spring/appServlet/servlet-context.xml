@@ -20,7 +20,27 @@
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
-	
+
+	<!-- 관리자 페이지 인터셉터 Error.do 제외한 exclude 전부 빼고 테스트 필요함 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/Manage_Page/**" />		
+<!-- 			<exclude-mapping path="/Manage_Page/home.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/Error.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/advManage.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/boardManage.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/claimManage.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/paymentManage.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/noticeManage.do"/> -->
+<!-- 			<exclude-mapping path="/Manage_Page/qnaManage.do"/> -->
+			<exclude-mapping path="/Manage_Page/**" />
+
+			<beans:bean class="mvc.interceptor.AdminInterceptor" />
+		</interceptor>	
+	</interceptors>
+
+	<!-- NoticeFile DownloadView -->
+	<beans:bean id="nfdownload" class="mvc.view.adminView.NoticeFileDownloadView"/>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/css/**" location="/resources/css/" /> 
