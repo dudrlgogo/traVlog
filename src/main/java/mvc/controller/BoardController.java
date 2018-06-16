@@ -145,15 +145,18 @@ public class BoardController {
 			
 		}else if(member.getSearch() != null || member.getSearch() != "") {
 			//검색어가 있을때..
+			logger.info("검색어가 존재한다.");
 			boardMember.setSearch(member.getSearch());
 			List<Board> boardList = boardService.getBoardListBySearch(boardMember);
 			model.addAttribute("boardList",boardList);
 
 			List<Files> filesList = boardService.getFiles(boardMember);
 			model.addAttribute("filesList",filesList);
+
 			//06.13 게시글 프로필 사진 추가
 			List<Profile> profileList = boardService.getProfileList(boardMember);
 			model.addAttribute("profileList",profileList);
+			model.addAttribute("search",member.getSearch());
 			System.out.println(boardList.get(0).toString());
 		}
 
@@ -180,17 +183,21 @@ public class BoardController {
 		if(search != "" && search != null) {
 			//검색 값이 존재할 떄
 //			count = count+2;
+			logger.info("검색어가 존재한다.");
 			Member boardMember = new Member();
 			boardMember.setSearch(search);
 			boardMember.setMemid((String)session.getAttribute("memid"));
 			boardMember.setMemnick((String)session.getAttribute("memnick"));
 
-			List<Board> boardList = boardService.getBoardListByFollow(boardMember);
+			List<Board> boardList = boardService.getBoardListBySearch(boardMember);
 			List<Files> filesList = boardService.getFiles(boardMember);
+			model.addAttribute("search",search);
 			model.addAttribute("boardList",boardList);
 			model.addAttribute("filesList",filesList);
 
 		    }else {
+			logger.info("검색값이 없다");
+
 			//검색 값이 없을 떄
 			count = count+2;
 			Member boardMember = new Member();

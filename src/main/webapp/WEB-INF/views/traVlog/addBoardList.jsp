@@ -41,6 +41,14 @@
 				</c:if>
 			</div>
 
+            <div class="Bcontent">
+            <label>좋아요 <strong id="recommend_${board.bodno }">${board.recommendCnt }</strong> 개</label>
+            <p class="Rcontent">${board.bodcontent }</p>
+            <c:forTokens items="${board.bodhashtag }" delims="#" var="item">
+          <a href="javascript:void(0);" onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
+         </c:forTokens>
+            </div>
+
 			<!--             06.14 정민 이미지, 동영상 처리 -->
 
 			<div class="boardImg">
