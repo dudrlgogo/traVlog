@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context 
+						http://www.springframework.org/schema/context/spring-context.xsd 
+						http://www.springframework.org/schema/task 
+						http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+
+	<!-- 스케쥴러 패키지 설정 --> 
+	<context:component-scan base-package="mvc.util.admin" /> 
+	<!-- 스케쥴러 설정에 필요한 태그들 --> 
+	<task:scheduler id="jobScheduler" pool-size="10" /> 
+	<task:annotation-driven scheduler="jobScheduler" />
 
 	<!-- gmail -->
     <bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
@@ -31,10 +44,10 @@
 	<bean id="dataSourceSpied" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe" />
-		<property name="username" value="travlog" />
-		<property name="password" value="tt0619" />
-<!-- 		<property name="username" value="scott" /> -->
-<!-- 		<property name="password" value="tiger" /> -->
+<!-- 		<property name="username" value="travlog" /> -->
+<!-- 		<property name="password" value="tt0619" /> -->
+		<property name="username" value="scott" />
+		<property name="password" value="tiger" />
 
 	</bean>
 	
@@ -56,7 +69,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
 		<!-- classpath: 얘는 src/main/resources 를 의미함 -->
-		<property name="mapperLocations" value="classpath:/mvc/dao/*DaoImpl.xml" />
+		<property name="mapperLocations" value="classpath:/mvc/dao/**/*DaoImpl.xml" />
 	</bean>
 	
 	<!-- DAO 등록 : MyBatis 인터페이스 -->

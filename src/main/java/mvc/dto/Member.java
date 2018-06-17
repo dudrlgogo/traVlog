@@ -1,5 +1,7 @@
 package mvc.dto;
 
+import java.util.Date;
+
 public class Member {
 
 	private String memid;
@@ -22,6 +24,13 @@ public class Member {
 	//검색용 단어 저장
 	private String search;
 	
+	// 추가된 친구들
+	private int memstatus;	// 회원상태
+	private int claimed;	// 회원의 게시물이 신고당한 횟수
+	private int memclaimed;	// 회원이 신고당한 횟수	
+	private Date mempausetime;	// 계정정지  회원의 계정정지 기간
+	
+
 	public int getMemposting() {
 		return memposting;
 	}
@@ -115,4 +124,37 @@ public class Member {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+	
+	public int getMemstatus() {
+		return memstatus;
+	}
+
+	public void setMemstatus(int memstatus) {
+		this.memstatus = memstatus;
+	}
+
+	public int getClaimed() {
+		return claimed;
+	}
+
+	public void setClaimed(int claimed) {
+		this.claimed = claimed;
+	}
+
+	public int getMemclaimed() {
+		return memclaimed;
+	}
+
+	public void setMemclaimed(int memclaimed) {
+		this.memclaimed = memclaimed;
+	}
+
+	public Date getMempausetime() {
+		return mempausetime;
+	}
+
+	public void setMempausetime(Date mempausetime) {
+		this.mempausetime = mempausetime;
+	}
+
 }

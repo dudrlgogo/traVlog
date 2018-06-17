@@ -25,6 +25,45 @@
 	
 	
 	<dependencies>
+
+		<!-- pdf 출력을 위한 itext -->
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itextpdf</artifactId>
+		    <version>5.5.11</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-pdfa -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itext-pdfa</artifactId>
+		    <version>5.5.11</version>
+		    <scope>test</scope>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker -->
+		<dependency>
+		    <groupId>com.itextpdf.tool</groupId>
+		    <artifactId>xmlworker</artifactId>
+		    <version>5.5.11</version>
+		</dependency>
+	
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-xtra -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itext-xtra</artifactId>
+		    <version>5.5.11</version>
+		</dependency>
+	
+		<!-- itex 한글 처리용 아시아 언어팩 -->
+		<!-- https://mvnrepository.com/artifact/com.itextpdf/itext-asian -->
+		<dependency>
+		    <groupId>com.itextpdf</groupId>
+		    <artifactId>itext-asian</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+
 		<!-- JavaMail API 1.4.7 -->
 		<dependency>
 		    <groupId>javax.mail</groupId>
