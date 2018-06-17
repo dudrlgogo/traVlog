@@ -306,6 +306,7 @@ $(document).ready(function () {
       });
    }//else 끝
  }
+ 
  //댓글 삭제
  function comDelete(comno){
     console.log("삭제버튼 눌림 comno: "+comno+"bodno:"+bodno);
@@ -324,6 +325,7 @@ $(document).ready(function () {
     });
  }
 //대댓글 파트 시작 ..
+
 //대댓글 작성 (insert)
    function writeComments(comno){
       
@@ -389,7 +391,6 @@ $(document).ready(function () {
        }
  //대댓글 파트 끝
  
- 
  // 화면 넘기기 페이징 <><><>
  
  var slideIndex = 1;
@@ -411,7 +412,6 @@ $(document).ready(function () {
 	}
 
 </script>
-
 
 </head>
 

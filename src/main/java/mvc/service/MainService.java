@@ -1,6 +1,7 @@
 package mvc.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,10 @@ public class MainService {
 
 	public ArrayList<FollowingRec> admin() {
 		return mainDao.admin();
+	}
+
+
+	public List<Member> getMemberListBySearch(Member member) {
+		return mainDao.getMemberListBySearch(member);
 	}
 }

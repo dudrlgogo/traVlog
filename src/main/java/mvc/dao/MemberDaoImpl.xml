@@ -37,5 +37,10 @@
 	<select id="getProfile" parameterType="String" resultType="mvc.dto.Profile">
 		SELECT * FROM tb_profile WHERE memid=#{memid}
 	</select>
-	
+	<insert id="insertFollow" parameterType="mvc.dto.Follow">
+		INSERT INTO TB_FOLLOW(MEMID,FLWID) VALUES(#{memid},#{flwid})
+	</insert>
+	<select id="getMemberByNick" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		select * from tb_member where memnick=#{memnick}
+	</select>
 </mapper>

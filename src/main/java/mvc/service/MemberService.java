@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mvc.dao.MemberDao;
+import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Profile;
 
@@ -49,6 +50,14 @@ public class MemberService {
 
 	public ArrayList<Profile> getProfile(String memid) {
 		return memberDao.getProfile(memid);
+	}
+
+	public void insertFollow(Follow insertFollow) {
+		memberDao.insertFollow(insertFollow);
+	}
+
+	public Member getMemberByNick(Member member) {
+		return memberDao.getMemberByNick(member);
 	}
 
 }

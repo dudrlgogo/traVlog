@@ -41,13 +41,7 @@
 				</c:if>
 			</div>
 
-            <div class="Bcontent">
-            <label>좋아요 <strong id="recommend_${board.bodno }">${board.recommendCnt }</strong> 개</label>
-            <p class="Rcontent">${board.bodcontent }</p>
-            <c:forTokens items="${board.bodhashtag }" delims="#" var="item">
-          <a href="javascript:void(0);" onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
-         </c:forTokens>
-            </div>
+
 
 			<!--             06.14 정민 이미지, 동영상 처리 -->
 
@@ -84,6 +78,17 @@
 					</c:if>
 				</button>
 
+				<div class="Bcontent">
+					<label>좋아요 <strong id="recommend_${board.bodno }">${board.recommendCnt }</strong>
+						개
+					</label>
+					<p class="Rcontent">${board.bodcontent }</p>
+					<c:forTokens items="${board.bodhashtag }" delims="#" var="item">
+						<a href="javascript:void(0);"
+							onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
+					</c:forTokens>
+				</div>
+
 				<button>
 					<img class="comm" width="30px;"
 						src="/resources/images/icon/comment.png">
@@ -109,10 +114,10 @@
 				</label>
 				<p class="Rcontent">${board.bodcontent }</p>
 				<c:forTokens items="${board.bodhashtag }" delims="#" var="item">
-					<a href="" class="tag">#${item} </a>
+					<a href="javascript:void(0);"
+						onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
 				</c:forTokens>
 			</div>
-
 			<!-- 댓글 작성 시작 2018.06.09 -->
 
 			<div class="Bcomment">

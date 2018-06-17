@@ -33,6 +33,7 @@ import mvc.dto.Claim;
 import mvc.dto.Comment;
 import mvc.dto.Comments;
 import mvc.dto.Files;
+import mvc.dto.Follow;
 import mvc.dto.FollowingRec;
 import mvc.dto.HashTag;
 import mvc.dto.LatLng;
@@ -157,7 +158,7 @@ public class BoardController {
 			List<Profile> profileList = boardService.getProfileList(boardMember);
 			model.addAttribute("profileList",profileList);
 			model.addAttribute("search",member.getSearch());
-			System.out.println(boardList.get(0).toString());
+
 		}
 
 
@@ -628,6 +629,44 @@ public class BoardController {
 			model.addAttribute("commentList",commentList);
 
 		}
+		
+		//친구찾기 ajax 작동
+		@RequestMapping(value="/traVlog/followerFindBySearch.do", method=RequestMethod.GET)
+		public void findFollower(HttpSession session, Model model, Member member) {
+			logger.info("친구검색(followerFindBySearch) GET요청");
+			logger.info("받아온 member.search정보"+member.getSearch());
+			//현재 로그인중인 사람의 id를 가지고 오기..
+			String memid = (String) session.getAttribute("memid");
+			member.setMemid(memid);
+			logger.info("session memnick : "+memid);
+			List<Member> searchMemberList = mainService.getMemberListBySearch(member);
+			List<FollowingRec> recList = mainService.recommend(memid);
+			
+			
+			model.addAttribute("searchMemberList",searchMemberList);
+			model.addAttribute("recList", recList);
+		}
+		
+		//친구찾기에서 팔로우기능 하기..
+	@ResponseBody
+	@RequestMapping(value = "/traVlog/doFollow.do", method = RequestMethod.POST)
+	public HashMap<String, Object> checkId(HttpSession session,String memnick) {
+		
+		logger.info(memnick);
+		Follow insertFollow = new Follow();
+		Member member = new Member();
+		member.setMemnick(memnick);
+		member = memberService.getMemberByNick(member);
+		logger.info(member.toString());
+		insertFollow.setFlwid(member.getMemid());
+		insertFollow.setMemid((String)session.getAttribute("memid"));
+		memberService.insertFollow(insertFollow);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("KEY", "YES");
+
+		return hashmap;
+	}
 }
 
 
