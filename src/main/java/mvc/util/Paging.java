@@ -15,6 +15,9 @@ public class Paging {
 	private int endNo;	//게시물리스트 마지막 번호
 	
 	private String searchContent;	//검색한 값
+
+	// default 생성자(없으면 에러나요)
+	public Paging() {}
 	
 	// 총 게시글 수만 입력하는 생성자
 	//	curPage == 1

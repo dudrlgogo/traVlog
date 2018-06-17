@@ -6,6 +6,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="/resources/css/M_SideMenu.css" rel="stylesheet">
+
+<style type="text/css">
+.sidecolor a {
+	background-color: skyblue !important;
+	font-size: 15px !important;
+	font-weight: 700 !important;
+	
+}
+
+a {
+	font-size: 15px;
+	font-weight: 500;
+}
+</style>
+
 </head>
 <body>
 <%--
@@ -36,17 +51,19 @@
  --%>
 <div id="menu">
    <ul class="level1">
-      <li><a class="fly" href="/Manage_Page/home.do">Home</a></li>
-      <li><a class="fly" href="/Manage_Page/#.do">신고 관리</a></li>
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/home.do">회원 관리</a></li>
       
-      <li><a class="fly" href="/Manage_Page/#.do">공지 관리</a></li>
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/boardManage.do">게시물 관리</a></li>
       
-      <li><a class="fly" href="/Manage_Page/#.do">문의 관리</a></li>
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/claimManage.do">신고 관리</a></li>
       
-      <li><a class="fly" href="/Manage_Page/#.do">광고 관리</a></li>
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/noticeManage.do">공지 관리</a></li>
       
-      <li><a class="fly" href="/Manage_Page/#.do">결제 관리</a></li>
-		
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/qnaManage.do">문의 관리</a></li>
+      
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/advManage.do">광고 관리</a></li>
+      
+      <li class="sidecolor"><a class="fly" href="/Manage_Page/paymentManage.do">결제 관리</a></li>		
 	</ul>
 </div>		<!-- sideMenu end -->
 </body>

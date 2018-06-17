@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mvc.dao.adminDao.AdminDao">
+
+	<!-- 회원관리 파트 -->
+	<select id="getTotalMember" resultType="int">
+		SELECT COUNT(*) FROM tb_member
+	</select>
+	
+	<sql id="selectSearchMember">
+		SELECT rownum rnum, M.* FROM (
+			SELECT
+				memid 
+				, mempassword
+				, memnick 
+				, memage
+				, memsex
+				, mememail
+				, memphone
+				, (SELECT COUNT(*) FROM tb_board WHERE bodname = tb_member.memnick) AS memposting
+				, memfollower
+				, memfollowing
+				, (SELECT mopaccount FROM tb_member_option WHERE memid = tb_member.memid) AS memstatus
+				, (SELECT COUNT(*) FROM tb_claim WHERE bodno = (SELECT bodno FROM tb_board WHERE bodname = tb_member.memnick)) AS claimed
+				, (SELECT COUNT(*) FROM tb_claim WHERE clmtoid = tb_member.memnick) AS memclaimed
+				, mempausetime
+			FROM tb_member
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND memid LIKE '%' || #{searchContent } || '%' OR memnick LIKE '%' || #{searchContent } || '%'
+			</if>
+			ORDER BY claimed DESC, memstatus DESC
+		) M
+		ORDER BY rnum
+	</sql>
+	
+	<select id="getSearchTotalMember" parameterType="mvc.util.Paging" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchMember" />
+		) CNT
+	</select>
+
+	<select id="pagingMemberList" resultType="mvc.dto.Member">
+		SELECT memid, mempassword, memnick, memage, memsex, mememail, memphone, memposting, memfollower, memfollwing, memstatus, claimed
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					memid 
+					, mempassword
+					, memnick 
+					, memage
+					, memsex
+					, mememail
+					, memphone
+					, (SELECT COUNT(*) FROM tb_board WHERE bodname = tb_member.memnick) AS memposting
+					, memfollower
+					, memfollwing
+					, (SELECT mopaccount FROM tb_member_option WHERE memid = tb_member.memid) AS memstatus
+					, (SELECT COUNT(*) FROM tb_claim WHERE bodno = (SELECT bodno FROM tb_board WHERE bodname = tb_member.memnick)) AS claimed
+					, (SELECT COUNT(*) FROM tb_claim WHERE clmtoid = tb_member.memnick) AS memclaimed
+					, mempausetime
+				FROM tb_member
+	 			ORDER BY claimed DESC, memstatus DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+	<select id="searchPagingMemberList" parameterType="mvc.util.Paging" resultType="mvc.dto.Member">
+		SELECT * FROM (
+			<include refid="selectSearchMember" />
+		) R
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+	<update id="updateMemberStatus" parameterType="mvc.dto.Member">
+		UPDATE tb_member_option SET mopaccount = #{memstatus } WHERE memid = #{memid }
+	</update>
+
+	<update id="updatePauseAccount" parameterType="mvc.dto.Member">
+		UPDATE tb_member SET mempausetime = sysdate+7 WHERE memid = #{memid }
+	</update>
+	<!-- 회원관리 파트 END -->
+
+	<!-- 게시판 파트 -->
+	<select id="selectAllBoard" resultType="mvc.dto.Board">
+		SELECT * FROM tb_board ORDER BY bodno DESC
+	</select>
+
+	<select id="getTotalBoard" resultType="int">
+		SELECT COUNT(*) FROM tb_board
+	</select>
+
+	<sql id="selectSearchBoard">
+		SELECT rownum rnum, M.* FROM (
+			SELECT
+				bodno 
+				, bodtitle
+				, bodcontent 
+				, bodhashtag
+				, bodrecommend
+				, boddate
+				, bodname
+				, (SELECT COUNT(*) FROM tb_claim WHERE bodno = tb_board.bodno) AS claimed
+			FROM tb_board
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND bodtitle LIKE '%' || #{searchContent } || '%' OR bodhashtag LIKE '%' || #{searchContent } || '%' OR bodname LIKE '%' || #{searchContent } || '%'
+			</if>
+			ORDER BY claimed DESC, bodno DESC
+		) M
+		ORDER BY rnum
+	</sql>
+
+	<select id="getSearchTotalBoard" parameterType="mvc.util.Paging" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchBoard" />	
+		) CNT
+	</select>
+
+	<select id="pagingBoardList" resultType="mvc.dto.Board">
+		SELECT bodno, bodtitle, bodcontent, bodhashtag, bodrecommend, boddate, bodname, claimed
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					bodno 
+					, bodtitle
+					, bodcontent 
+					, bodhashtag
+					, bodrecommend
+					, boddate
+					, bodname
+					, (SELECT COUNT(*) FROM tb_claim WHERE bodno = tb_board.bodno) AS claimed									
+				FROM tb_board
+	 			ORDER BY claimed DESC, bodno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+	
+	<select id="searchPagingBoardList" parameterType="mvc.util.Paging" resultType="mvc.dto.Board">
+		SELECT * FROM (
+			<include refid="selectSearchBoard" />
+		) R
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+
+	<delete id="deleteBoardByBoardno">
+		DELETE FROM tb_board WHERE bodno = #{bodno }
+	</delete>
+	
+	<select id="selectBoardByBoardno" parameterType="mvc.dto.Board" resultType="mvc.dto.Board">
+		SELECT bodno, bodtitle, bodcontent, bodhashtag, bodrecommend, boddate, bodname, (SELECT COUNT(*) FROM tb_claim WHERE bodno = tb_board.bodno) AS claimed				
+		FROM tb_board WHERE bodno = #{bodno }
+	</select>
+	
+	<select id="selectFilesByBoardno" parameterType="mvc.dto.Board" resultType="mvc.dto.Files">
+		SELECT bodno, filoriginfile, filsavefile, filsize, fildate
+		FROM tb_files WHERE bodno = #{bodno }
+	</select>	
+	
+	<select id="getCommentListByBoardno" parameterType="mvc.dto.Board" resultType="mvc.dto.Comment">
+		SELECT * FROM TB_COMMENT WHERE bodno = #{bodno } ORDER BY COMWRITTENDATE DESC
+	</select>
+	<!-- 게시판 파트 END -->
+
+	<!-- 공지사항 파트 -->
+	<select id="getTotalNotice" resultType="int">
+		SELECT COUNT(*) FROM tb_notice
+	</select>
+	
+	<sql id="selectSearchNotice">
+		SELECT rownum rnum, N.* FROM (
+			SELECT
+				notno 
+				, nottitle
+				, notname 
+				, notcontent
+				, notdate
+			FROM tb_notice
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND nottitle LIKE '%' || #{searchContent } || '%' OR notno LIKE '%' || #{searchContent } || '%'
+			</if>
+			ORDER BY notno DESC
+		) N
+		ORDER BY rnum
+	</sql>
+
+	<select id="getSearchTotalNotice" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchNotice" />	
+		) CNT
+	</select>
+
+	<select id="pagingNoticeList" resultType="mvc.dto.Notice">
+		SELECT notno, nottitle, notname, notcontent, notdate
+		FROM (
+			SELECT rownum rnum, n.* FROM (
+				SELECT
+					notno 
+					, nottitle
+					, notname
+					, notcontent
+					, notdate
+				FROM tb_notice
+	 			ORDER BY notno DESC
+	 		) n
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+	<select id="searchPagingNoticeList" parameterType="mvc.util.Paging" resultType="mvc.dto.Notice">
+		SELECT * FROM (
+			<include refid="selectSearchNotice" />
+		) N
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+	
+	<delete id="deleteNoticeByNoticeno">
+		DELETE FROM tb_notice WHERE notno = #{notno }
+	</delete>
+	
+	<select id="selectNoticeByNoticeno" parameterType="mvc.dto.Notice" resultType="mvc.dto.Notice">
+		SELECT notno, nottitle, notname, notcontent, notdate FROM tb_notice WHERE notno = #{notno }
+	</select>
+	
+	<insert id="insertNotice" parameterType="mvc.dto.Notice">
+		INSERT INTO tb_notice(
+			notno
+			, nottitle
+			, notname
+			, notcontent
+			, notdate
+			)
+			 VALUES(
+				up_notno.nextval
+				, #{nottitle }
+				, '관리자'
+				, #{notcontent }
+				, sysdate
+				)
+	</insert>
+	
+	<sql id="selectUp_notno">
+		(SELECT notno FROM tb_notice WHERE notno = (SELECT MAX(notno) AS notno FROM tb_notice))	
+	</sql>
+	
+	<insert id="insertNoticeFile" parameterType="mvc.dto.NoticeFile">
+		INSERT INTO tb_noticefile(
+			notno
+			, nforiginfile
+			, nfsavefile
+			, nffilesize
+			, nfdate
+		)
+		 VALUES(
+		 	<include refid="selectUp_notno" />
+		 	, #{nforiginfile }
+		 	, #{nfsavefile }
+		 	, #{nffilesize }
+		 	, sysdate
+		 )
+	</insert>
+	
+	<select id="selectNoticeFile" parameterType="mvc.dto.Notice" resultType="mvc.dto.NoticeFile">
+		SELECT
+			notno
+			, nforiginfile
+			, nfsavefile
+			, nffilesize
+			, nfdate
+		FROM tb_noticefile
+		WHERE notno = #{notno }
+	</select>
+	
+	<select id="getSavedNoticeFileName" parameterType="mvc.dto.NoticeFile" resultType="String">
+		SELECT nfsavefile FROM tb_noticefile WHERE notno = #{notno }
+	</select>
+	
+	<update id="updateNoticeByNoticeno" parameterType="mvc.dto.Notice">
+		UPDATE tb_notice SET 
+			nottitle = #{nottitle }
+			, notcontent = #{notcontent } 
+		WHERE notno = #{notno }
+	</update>
+	<!-- 공지사항 파트 END -->
+
+
+	<!-- 문의사항 파트 -->
+	<select id="getTotalQna" resultType="int">
+		SELECT COUNT(*) FROM tb_question
+	</select>
+	
+	<sql id="selectSearchQna">
+		SELECT rownum rnum, Q.* FROM (
+			SELECT
+				qusno 
+				, memid
+				, qustitle 
+				, qusname
+				, quscontent
+				, qusdate
+				, (SELECT COUNT(*) FROM tb_answer WHERE qusno = tb_question.qusno) AS answered				
+			FROM tb_question
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND memid LIKE '%' || #{searchContent } || '%' OR qusname LIKE '%' || #{searchContent } || '%' OR qustitle LIKE '%' || #{searchContent } || '%'
+			</if>
+			ORDER BY qusno DESC
+		) Q
+		ORDER BY rnum
+	</sql>
+	
+	<select id="getSearchTotalQna" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchQna" />	
+		) CNT
+	</select>
+
+	<select id="pagingQnaList" resultType="mvc.dto.Question">
+		SELECT qusno, memid, qustitle, qusname, quscontent, qusdate, answered
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					qusno
+					, memid 
+					, qustitle
+					, qusname 
+					, quscontent
+					, qusdate
+					, (SELECT COUNT(*) FROM tb_answer WHERE qusno = tb_question.qusno) AS answered
+				FROM tb_question
+	 			ORDER BY qusno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }
+	</select>
+
+	<select id="searchPagingQnaList" parameterType="mvc.util.Paging" resultType="mvc.dto.Question">
+		SELECT * FROM (
+			<include refid="selectSearchQna" />
+		) Q1
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+	
+	<select id="selectQuestionByqusno" parameterType="mvc.dto.Question" resultType="mvc.dto.Question">
+		SELECT qusno, memid, qustitle, qusname, quscontent, qusdate FROM tb_question WHERE qusno = #{qusno }
+	</select>
+	
+	<select id="selectAnswerByqusno" parameterType="mvc.dto.Question" resultType="mvc.dto.Answer">
+		SELECT a.qusno, a.anstitle, a.anscontent, a.ansdate FROM tb_answer a WHERE a.qusno = #{qusno }
+	</select>
+	
+	<select id="getMemberQna" parameterType="mvc.dto.Question" resultType="int">
+		SELECT COUNT(*) FROM tb_question WHERE memid = #{memid }
+	</select>
+	
+	<select id="pagingMemberQnaList" parameterType="mvc.dto.Question" resultType="mvc.dto.Question">
+		SELECT qusno, memid, qustitle, qusname, quscontent, qusdate, answered
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					qusno
+					, memid 
+					, qustitle
+					, qusname 
+					, quscontent
+					, qusdate
+					, (SELECT COUNT(*) FROM tb_answer WHERE qusno = tb_question.qusno) AS answered
+				FROM tb_question 
+				WHERE memid = #{memid } 
+	 			ORDER BY qusno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN 1 AND 2	
+	</select>
+	
+	<insert id="insertQnaAnswer" parameterType="mvc.dto.Answer">
+		INSERT INTO tb_answer(qusno, anstitle, anscontent, ansdate)
+		VALUES(#{qusno }, #{anstitle }, #{anscontent }, sysdate)
+	</insert>
+	
+	<!-- 문의사항 파트 END -->
+
+	<!-- 신고 관리 파트 -->
+	<select id="getTotalBoardClaim" resultType="int">
+		SELECT COUNT(*) FROM tb_claim
+	</select>
+
+	<sql id="selectSearchBoardClaim">
+		SELECT rownum rnum, C.* FROM (
+			SELECT
+				clmno
+				, bodno 
+				, clmfromid
+				, clmtoid
+				, clmdate 
+				, clmreason
+				, clmcondition
+				, (SELECT bodtitle FROM tb_board WHERE bodno = tb_claim.bodno) AS bodtitle
+			FROM tb_claim
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND bodno LIKE '%' || #{searchContent } || '%' 
+			</if>
+			ORDER BY clmno DESC, bodno DESC
+		) C
+		ORDER BY rnum
+	</sql>
+
+	<select id="getSearchTotalBoardClaim" parameterType="mvc.util.Paging" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchBoardClaim" />	
+		) CNT
+	</select>
+
+	<select id="pagingBoardClaimList" resultType="mvc.dto.Claim">
+		SELECT clmno, bodno, clmfromid, clmtoid, clmdate, clmreason, clmcondition
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					clmno
+					, bodno 
+					, clmfromid
+					, clmtoid
+					, clmdate 
+					, clmreason
+					, clmcondition
+				FROM tb_claim
+	 			ORDER BY clmno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+
+	<select id="searchPagingBoardClaimList" parameterType="mvc.util.Paging" resultType="mvc.dto.Claim">
+		SELECT * FROM (
+			<include refid="selectSearchBoardClaim" />
+		) C1
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+	
+	<update id="updateClmCondition" parameterType="mvc.dto.Claim">
+		UPDATE tb_claim SET clmcondition = #{clmcondition } WHERE clmno = #{clmno }	
+	</update>
+	
+	<select id="ClaimListForPdf" resultType="mvc.dto.Claim">
+		SELECT clmno, bodno, clmfromid, clmtoid, clmdate, clmreason, clmcondition
+		FROM tb_claim ORDER BY clmno DESC
+	</select>
+	<!-- 신고 관리 파트 END -->
+
+	<!-- 광고 관리 파트 -->
+	<select id="getTotalAdvertising" resultType="int">
+		SELECT COUNT(*) FROM tb_advertising
+	</select>
+
+	<sql id="selectSearchAdvertising">
+		SELECT rownum rnum, Ad.* FROM (
+			SELECT
+				advno
+				, advid 
+				, advdate
+				, advapprove 
+				, advtitle
+				, advprice
+				, advstart
+				, advend
+				, advcontent
+				, advfile
+			FROM tb_advertising
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND advtitle LIKE '%' || #{searchContent } || '%' OR advid LIKE '%' || #{searchContent } || '%' 
+			</if>
+			ORDER BY advno DESC
+		) Ad
+		ORDER BY rnum
+	</sql>
+	
+	<select id="getSearchTotalAdvertising" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchAdvertising" />	
+		) CNT
+	</select>	
+	
+	<select id="pagingAdvertisingList" resultType="mvc.dto.Advertising">
+		SELECT advno, advid, advdate, advapprove, advtitle, advprice, advstart, advend, advcontent, advfile
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					advno
+					, advid 
+					, advdate
+					, advapprove 
+					, advtitle
+					, advprice
+					, advstart
+					, advend
+					, advcontent
+					, advfile
+				FROM tb_advertising
+	 			ORDER BY advno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }		
+	</select>
+	
+	<select id="searchPagingAdvertisingList" parameterType="mvc.util.Paging" resultType="mvc.dto.Advertising">
+		SELECT * FROM (
+			<include refid="selectSearchAdvertising" />
+		) Ad1
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>
+	
+	<update id="updateAdvApprove" parameterType="mvc.dto.Advertising">
+		UPDATE tb_advertising SET advapprove = #{advapprove } WHERE advno = #{advno }	
+	</update>
+	
+	<!-- 광고 관리 파트 END -->
+
+	<!-- 결제 관리 파트 -->
+	<select id="getTotalPayment" resultType="int">
+		SELECT COUNT(*) FROM tb_payment
+	</select>
+	
+	<sql id="selectSearchPayment">
+		SELECT rownum rnum, P.* FROM (
+			SELECT
+				payno
+				, advno 
+				, payid
+				, paystart
+				, payend
+				, paytitle
+				, payprice
+				, payway
+				, paycondition
+			FROM tb_payment
+			WHERE 1=1
+			<if test="searchContent != null and searchContent != ''">
+				AND advno LIKE '%' || #{searchContent } || '%' OR payid LIKE '%' || #{searchContent } || '%' 
+			</if>
+			ORDER BY payno DESC
+		) P
+		ORDER BY rnum
+	</sql>
+	
+	<select id="getSearchTotalPayment" resultType="int">
+		SELECT COUNT(*) FROM (
+			<include refid="selectSearchPayment" />	
+		) CNT
+	</select>	
+
+	<select id="pagingPaymentList" resultType="mvc.dto.Payment">
+		SELECT payno, advno, payid, paystart, payend, paytitle, payprice, payway, paycondition
+		FROM (
+			SELECT rownum rnum, b.* FROM (
+				SELECT
+					payno
+					, advno 
+					, payid
+					, paystart
+					, payend
+					, paytitle
+					, payprice
+					, payway
+					, paycondition
+				FROM tb_payment
+	 			ORDER BY paycondition ASC, payno DESC
+	 		) b
+	 		ORDER BY rnum
+	 	)
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }		
+	</select>
+	
+	<select id="searchPagingPaymentList" parameterType="mvc.util.Paging" resultType="mvc.dto.Payment">
+		SELECT * FROM (
+			<include refid="selectSearchPayment" />
+		) P1
+		WHERE rnum BETWEEN #{startNo } AND #{endNo }	
+	</select>	
+
+	<update id="updatePayCondition" parameterType="mvc.dto.Payment">
+		UPDATE tb_payment SET 
+			paycondition = #{paycondition } 
+			, payend = sysdate 
+			WHERE payno = #{payno }	
+	</update>
+
+	<!-- 결제 관리 파트 END -->
+	
+	<!-- 스케쥴 -->
+ 	
+	<update id="updateUnusedAccount">
+<!-- 		UPDATE tb_member SET memstatus = 3 WHERE (sysdate - lastconn) >= 100 AND memstatus = 0 OR (sysdate - lastconn) >= 100 AND memstatus = 1 -->
+		UPDATE tb_member_option SET mopaccount = 3 WHERE (sysdate - tb_member.lastconn) >= 100 AND mopaccount = 0 OR (sysdate - tb_member.lastconn) >= 100 AND mopaccount = 1
+	</update>
+	
+	<update id="updateAdvertisingEnd">
+		UPDATE tb_advertising SET advapprove = 2 WHERE (sysdate - advend) >= 0 AND advapprove = 1
+	</update>
+
+	<update id="updateAdvertisingStart">
+		UPDATE tb_advertising SET advapprove = 1 WHERE (sysdate - advstart) >= 0 AND advapprove = 0
+	</update>
+
+	<update id="updatePauseStatusReset">
+		UPDATE tb_member_option SET mopaccount = 0 WHERE mopaccount = 1  AND memid = ANY(SELECT memid FROM tb_member WHERE (sysdate - mempausetime) >= 0)
+	</update>
+
+	<update id="updatePauseTimeReset">
+		UPDATE tb_member SET mempausetime = '' WHERE (sysdate - mempausetime) >= 0
+	</update>
+	<!-- 스케쥴 END -->
+</mapper>

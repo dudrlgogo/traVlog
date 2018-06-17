@@ -58,6 +58,9 @@ public class Board {
 	//file을 여러개 받기 위해 추가함.
 	private List<MultipartFile> upload;
 	
+	// (관리자)게시물별로 신고당한 수 확인용
+	private int claimed;
+
 	public int getBodno() {
 		return bodno;
 	}
@@ -176,4 +179,13 @@ public class Board {
 	public void setRnum(int rnum) {
 		this.rnum = rnum;
 	}
+	
+	public int getClaimed() {
+		return claimed;
+	}
+
+	public void setClaimed(int claimed) {
+		this.claimed = claimed;
+	}
+
 }

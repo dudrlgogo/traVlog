@@ -62,11 +62,11 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired ServletContext context;
 	
-	@RequestMapping(value = "/Manage_Page/home.do", method = RequestMethod.GET)
-	public String ManageHome() {
-		logger.info("관리자페이지 GET요청");
-		return "Manage_Page/home";
-	}
+//	@RequestMapping(value = "/Manage_Page/home.do", method = RequestMethod.GET)
+//	public String ManageHome() {
+//		logger.info("관리자페이지 GET요청");
+//		return "Manage_Page/home";
+//	}
 
 	// Login 파트
 	@RequestMapping(value = "/traVlog/login.do", method = RequestMethod.GET)
@@ -557,9 +557,9 @@ public class BoardController {
 		public ModelAndView joinProc(HttpSession session, Claim claim) {
 			logger.info("신고 처리");
 			ModelAndView mav;
-			String clmName = (String) session.getAttribute("memnick");
+			String clmname = (String) session.getAttribute("memnick");
 			 
-			claim.setClmName(clmName);
+			claim.setClmfromid(clmname);
 			logger.info(claim.toString());
 
 			boardService.insertClaim(claim);

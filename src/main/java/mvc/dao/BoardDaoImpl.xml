@@ -135,7 +135,7 @@
 	
 	<insert id="insertClaim" parameterType="mvc.dto.Claim">
 	INSERT INTO tb_claim (clmno, bodno, clmname, clmDate,clmReason,clmcondition)  
-    VALUES(UP_clmNo.nextval, #{bodNo}, #{clmName}, sysdate, #{clmReason}, '0' )
+    VALUES(UP_clmNo.nextval, #{bodno}, #{clmname}, sysdate, #{clmreason}, '0' )
 	</insert>
 	
 	<select id="getFiles" parameterType="mvc.dto.Member" resultType="mvc.dto.Files">
