@@ -32,7 +32,7 @@ public interface AdminDao {
 
 	public Board selectBoardByBoardno(Board board);
 
-	public Files selectFilesByBoardno(Board board);
+	public List selectFilesByBoardno(Board board);
 	
 	public int getTotalMember();
 	
@@ -130,6 +130,8 @@ public interface AdminDao {
 	public void updatePauseTimeReset();
 
 	public List getCommentListByBoardno(Board board);
+
+	public List getCommentsListByCommentno();
 
 
 

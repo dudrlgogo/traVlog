@@ -21,7 +21,7 @@
 				, memphone
 				, (SELECT COUNT(*) FROM tb_board WHERE bodname = tb_member.memnick) AS memposting
 				, memfollower
-				, memfollwing
+				, memfollowing
 				, (SELECT mopaccount FROM tb_member_option WHERE memid = tb_member.memid) AS memstatus
 				, (SELECT COUNT(*) FROM tb_claim WHERE bodno = (SELECT bodno FROM tb_board WHERE bodname = tb_member.memnick)) AS claimed
 				, (SELECT COUNT(*) FROM tb_claim WHERE clmtoid = tb_member.memnick) AS memclaimed
@@ -43,7 +43,7 @@
 	</select>
 
 	<select id="pagingMemberList" resultType="mvc.dto.Member">
-		SELECT memid, mempassword, memnick, memage, memsex, mememail, memphone, memposting, memfollower, memfollwing, memstatus, claimed
+		SELECT memid, mempassword, memnick, memage, memsex, mememail, memphone, memposting, memfollower, memfollowing, memstatus, claimed
 		FROM (
 			SELECT rownum rnum, b.* FROM (
 				SELECT
@@ -165,6 +165,10 @@
 	
 	<select id="getCommentListByBoardno" parameterType="mvc.dto.Board" resultType="mvc.dto.Comment">
 		SELECT * FROM TB_COMMENT WHERE bodno = #{bodno } ORDER BY COMWRITTENDATE DESC
+	</select>
+	
+	<select id="getCommentsListByCommentno">
+		SELECT * FROM tb_comments WHERE comno = (SELECT comno FROM tb_comment WHERE bodno = #{bodno }) ORDER BY coswrittendate DESC
 	</select>
 	<!-- 게시판 파트 END -->
 
@@ -603,8 +607,8 @@
 	<!-- 스케쥴 -->
  	
 	<update id="updateUnusedAccount">
-<!-- 		UPDATE tb_member SET memstatus = 3 WHERE (sysdate - lastconn) >= 100 AND memstatus = 0 OR (sysdate - lastconn) >= 100 AND memstatus = 1 -->
-		UPDATE tb_member_option SET mopaccount = 3 WHERE (sysdate - tb_member.lastconn) >= 100 AND mopaccount = 0 OR (sysdate - tb_member.lastconn) >= 100 AND mopaccount = 1
+<!-- 		UPDATE tb_member SET memstatus = 3 WHERE (sysdate - memlastconn) >= 100 AND memstatus = 0 OR (sysdate - memlastconn) >= 100 AND memstatus = 1 -->
+		UPDATE tb_member_option SET mopaccount = 3 WHERE (sysdate - tb_member.memlastconn) >= 100 AND mopaccount = 0 OR (sysdate - tb_member.memlastconn) >= 100 AND mopaccount = 1
 	</update>
 	
 	<update id="updateAdvertisingEnd">

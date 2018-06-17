@@ -39,7 +39,7 @@ public interface AdminService {
 	public Board selectBoardByBoardno(Board board);
 
 	// 게시글 상세보기(첨부파일)
-	public Files selectFilesByBoardno(Board board);	
+	public List selectFilesByBoardno(Board board);	
 	
 	// 회원 목록 페이징 처리
 	public int getTotalMember();
@@ -169,6 +169,9 @@ public interface AdminService {
 
 	// 게시글 상세 페이지 댓글 가져오기
 	public List getCommentListByBoardno(Board board);
+
+	// 게시글 상세 페이지 대댓글 가져오기
+	public List getCommentsList();
 
 
 	

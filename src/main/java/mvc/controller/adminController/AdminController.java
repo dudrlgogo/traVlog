@@ -145,7 +145,7 @@ public class AdminController {
 		model.addAttribute("boardComentView", adminService.getCommentListByBoardno(board));
 
 		// 대댓글 불러오기
-//		model.addAttribute("boardComentsView", adminService.getCommentsList());
+		model.addAttribute("boardComentsView", adminService.getCommentsList());
 		
 		return "Manage_Page/boardView";
 	}

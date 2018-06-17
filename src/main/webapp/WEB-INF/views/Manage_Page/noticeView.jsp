@@ -25,11 +25,12 @@
 
 .content{
 	margin:0 auto;
-	background: linear-gradient(20deg, skyblue, hotpink);
+/* 	background: linear-gradient(20deg, skyblue, #eee); */
+	background: skyblue;
 }
 
 .notcontent {
-	border: 5px ridge Yellow;
+	border: 5px ridge Black;
 /* 	상, 우, 하, 좌 padding */
 	padding: 20px 30px 20px 30px;
 }

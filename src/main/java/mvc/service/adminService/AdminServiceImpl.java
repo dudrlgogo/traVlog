@@ -71,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public Files selectFilesByBoardno(Board board) {
+	public List selectFilesByBoardno(Board board) {
 
 		return adminDao.selectFilesByBoardno(board);
 	}
@@ -354,6 +354,12 @@ public class AdminServiceImpl implements AdminService {
 	public List getCommentListByBoardno(Board board) {
 
 		return adminDao.getCommentListByBoardno(board);
+	}
+
+	@Override
+	public List getCommentsList() {
+
+		return adminDao.getCommentsListByCommentno();
 	}
 
 
