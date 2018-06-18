@@ -62,7 +62,6 @@ $(document).ready(function() {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 th, td {
@@ -71,9 +70,10 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -81,6 +81,11 @@ span {
 .red {color: red;}
 .greed {color: green;}
 .gray {color: gray;}
+
+.pagename {
+	color: skyblue;
+	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+}
 
 </style>
 
@@ -95,6 +100,7 @@ span {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">광고 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -107,7 +113,7 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 광고 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 광고 수 : ${paging.totalCount }</span>
 <br>
 <!-- <a href="/Manage_Page/claimPdfList.do">PDF로 출력하기</a> -->
 
@@ -135,7 +141,8 @@ span {
 			<fmt:formatDate value="${i.advdate }" pattern="yyyy년MM월dd일 HH시mm분" />
 		</td>
 		
-		<td><a href="/Manage_Page/advView.do?advno=${i.advno }">${i.advtitle }</a></td>
+<%-- 		<td><a href="/Manage_Page/advView.do?advno=${i.advno }">${i.advtitle }</a></td> --%>
+		<td>${i.advtitle }</td>
 
 		<td>
 		<fmt:formatNumber value="${i.advprice }" pattern="#,###.##(원)" />
@@ -162,8 +169,8 @@ span {
 					<option value="2">승인상태 : 만료</option>
 				</c:if>
 				
-				<option value="1">승인(1)</option>
-				<option value="2">만료(2)</option>
+				<option value="1">승인</option>
+				<option value="2">만료</option>
 			</select>
 		</td>
 		

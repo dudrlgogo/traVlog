@@ -25,25 +25,57 @@
 	charset="utf-8"></script>
 
 <script type="text/javascript">
-	//‘저장’ 버튼을 누르는 등 저장을 위한 액션을 했을 때 submitContents가 호출된다고 가정한다.
-	function submitContents(elClickedObj) {
-		// 에디터의 내용이 textarea에 적용된다.
-		oEditors.getById["notcontent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-		// 에디터의 내용에 대한 값 검증은 이곳에서
-		// document.getElementById("ir1").value를 이용해서 처리한다.
+//‘저장’ 버튼을 누르는 등 저장을 위한 액션을 했을 때 submitContents가 호출된다고 가정한다.
+function submitContents(elClickedObj) {
+	
+    // 에디터의 내용이 textarea에 적용된다.
+    oEditors.getById["notcontent"].exec("UPDATE_CONTENTS_FIELD", []);
+
+    // 유효성 검사
+ 	var nottitle = document.getElementById("nottitle").value;
+	var notcontent = $("#notcontent").val();
+	console.log(notcontent);
+    
+	 if(nottitle == "" || nottitle == null || nottitle == "&nbsp;" || nottitle == "<p>&nbsp;</p>" || nottitle == "<br>") {
+ 		alert("제목을 입력하세요.");
+ 		document.getElementById("nottitle").focus();
+ 		return false;
+	} else if(document.getElementById("nottitle").value.length >= 15) {
+ 		alert("제목 길이 제한 초과!!");
+ 		document.getElementById("nottitle").focus();
+		return false;
+	} else if(notcontent == "" || notcontent == null || notcontent == "&nbsp;" || notcontent == "<p>&nbsp;</p>" || notcontent == "<br>" || notcontent == "<p><br></p>") {
+		alert("본문 내용을 입력하세요.");
+		document.getElementById("notcontent").focus();
+		return false; 
+	} else if(document.getElementById("notcontent").value.length >= 400) {
+		alert("본문 길이 제한 초과!!");
+		document.getElementById("notcontent").focus();
+		return false;
+	} else {
 		try {
+			alert("공지사항 수정 완료!!");
 			elClickedObj.form.submit();
-		} catch (e) {
-		}
-	}
+			return true;
 
-	$(document).ready(function() {
-		$("#btnUpdate").click(function() {
-			submitContents($(this));
-		});
-	});
+		} catch(e) {}	 
+ 	}
+}
+
+// 	$(document).ready(function() {
+// 		$("#btnUpdate").click(function() {
+// 			submitContents($(this));
+// 		});
+// 	});
 </script>
+
+<style type="text/css">
+.pagename {
+	color: skyblue;
+	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+}
+</style>
 
 
 </head>
@@ -55,10 +87,10 @@
 <div class="container">
 <div class="content">
 
-	<h1>공지사항 수정</h1>
+	<h1 class="pagename">공지사항 수정</h1>
 	<hr>
 
-	<form id="frm" action="#" method="post">
+	<form id="frm" action="#" method="post" enctype="multipart/form-data" onsubmit="submitContents()">
 		<div class="form-group">
 			<label for="notno">공지사항 번호</label><br>
 			<input type="text" id="notno" name="notno" value="${noticeView.notno }" readonly="readonly" class="form-control"/>
@@ -68,6 +100,11 @@
 			<label for="nottitle">공지사항 제목</label><br> 
 			<input type="text" id="nottitle" name="nottitle" class="form-control" value="${noticeView.nottitle }" />
 		</div>
+		
+		<div class="form-group">
+			<label for="notfile">첨부파일: </label>
+			<a href="/Manage_Page/nfdownload.do?notno=${noticeFile.notno }">${noticeFile.nforiginfile }</a><br>
+		</div><br>		
 
 		<div class="form-group">
 			<label for="notcontent">공지사항 본문</label><br>
@@ -75,7 +112,7 @@
 		</div>
 
 		<!-- 가운데 정렬 class="center-block" -->
-		<button id="btnUpdate" class="center-block">수정</button>
+		<input type="button" id="btnUpdate" class="center-block btn-lg btn-success" value="수정 완료" onclick="submitContents(this)" />
 	</form>
 </div>	<!-- content END -->
 </div>	<!-- container END -->
@@ -91,7 +128,8 @@
 			htParams : {
 				bUseToolbar : true, // 툴바 사용여부
 				bUseVerticalResizer : false, //입력창 크기 조절바
-				bUseModeChanger : true
+				bUseModeChanger : true,
+		    	fOnBeforeUnload : function(){}
 			//모드 탭
 			}
 		});

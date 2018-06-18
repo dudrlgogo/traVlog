@@ -111,10 +111,10 @@ public interface AdminService {
 	public Answer selectAnswerByqusno(Question question);
 	
 	// 회원별 문의사항 목록 페이징 처리
-	public int getMemberQna(Question question);
+	public int getMemberQna(Paging searchContent);
 
 	// 페이징된 회원별 문의사항 목록 조회
-	public List getPagingMemberQnaList(Question question, Paging paging);
+	public List getPagingMemberQnaList(Paging paging);
 
 	// 문의사항 답변 작성
 	public void insertQnaAnswer(Answer answer);
@@ -171,7 +171,7 @@ public interface AdminService {
 	public List getCommentListByBoardno(Board board);
 
 	// 게시글 상세 페이지 대댓글 가져오기
-	public List getCommentsList();
+	public List getCommentsList(Board board);
 
 
 	

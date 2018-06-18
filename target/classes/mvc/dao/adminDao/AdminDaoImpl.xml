@@ -167,8 +167,8 @@
 		SELECT * FROM TB_COMMENT WHERE bodno = #{bodno } ORDER BY COMWRITTENDATE DESC
 	</select>
 	
-	<select id="getCommentsListByCommentno">
-		SELECT * FROM tb_comments WHERE comno = (SELECT comno FROM tb_comment WHERE bodno = #{bodno }) ORDER BY coswrittendate DESC
+	<select id="getCommentsListByCommentno" parameterType="mvc.dto.Board" resultType="mvc.dto.Comments">
+		SELECT * FROM tb_comments WHERE comno = ANY(SELECT comno FROM tb_comment WHERE bodno = #{bodno }) ORDER BY coswrittendate DESC
 	</select>
 	<!-- 게시판 파트 END -->
 
@@ -362,11 +362,11 @@
 		SELECT a.qusno, a.anstitle, a.anscontent, a.ansdate FROM tb_answer a WHERE a.qusno = #{qusno }
 	</select>
 	
-	<select id="getMemberQna" parameterType="mvc.dto.Question" resultType="int">
-		SELECT COUNT(*) FROM tb_question WHERE memid = #{memid }
+	<select id="getMemberQna" parameterType="mvc.util.Paging" resultType="int">
+		SELECT COUNT(*) FROM tb_question WHERE memid = #{searchContent }
 	</select>
 	
-	<select id="pagingMemberQnaList" parameterType="mvc.dto.Question" resultType="mvc.dto.Question">
+	<select id="pagingMemberQnaList" parameterType="mvc.util.Paging" resultType="mvc.dto.Question">
 		SELECT qusno, memid, qustitle, qusname, quscontent, qusdate, answered
 		FROM (
 			SELECT rownum rnum, b.* FROM (
@@ -379,12 +379,12 @@
 					, qusdate
 					, (SELECT COUNT(*) FROM tb_answer WHERE qusno = tb_question.qusno) AS answered
 				FROM tb_question 
-				WHERE memid = #{memid } 
+				WHERE memid = #{searchContent } 
 	 			ORDER BY qusno DESC
 	 		) b
 	 		ORDER BY rnum
 	 	)
-	 	WHERE rnum BETWEEN 1 AND 2	
+	 	WHERE rnum BETWEEN #{startNo } AND #{endNo }	
 	</select>
 	
 	<insert id="insertQnaAnswer" parameterType="mvc.dto.Answer">

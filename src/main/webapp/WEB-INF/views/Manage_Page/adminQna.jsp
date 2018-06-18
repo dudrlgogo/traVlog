@@ -42,9 +42,10 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -56,13 +57,17 @@ span {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 .container {
 	width: 80%;
 	min-width: 1200px;
 	margin-left: 180px;
+}
+
+.pagename {
+	color: skyblue;
+	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
 }
 
 </style>
@@ -78,6 +83,7 @@ table {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">문의사항 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -90,7 +96,7 @@ table {
 </div>
 
 <hr>
-<span class="pull-right">조회된 문의사항 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 문의사항 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">
@@ -113,7 +119,7 @@ table {
 		<td>${i.qusname }</td>
 		<td><a href="/Manage_Page/qnaView.do?qusno=${i.qusno }">${i.qustitle }</a></td>
 		<td>
-			<fmt:formatDate value="${i.qusdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />
+			<fmt:formatDate value="${i.qusdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />
 		</td>
 		<c:if test="${i.answered eq 1 }"><td>답변 완료</td></c:if>
 		<c:if test="${i.answered eq 0 }"><td class="red">미답변</td></c:if>

@@ -26,11 +26,11 @@ function toTheBottom() {
 	$('html').scrollTop($(document).height());
 }
 
-$(document).ready(function() {
-	$("#back").click(function() {
-		history.back(-1);
-	})
-});
+// $(document).ready(function() {
+// 	$("#back").click(function() {
+// 		history.back(-1);
+// 	})
+// });
 
 </script>
 
@@ -45,7 +45,9 @@ $(document).ready(function() {
 
 .content{
 	margin:0 auto;
-	background: linear-gradient(20deg, skyblue, hotpink);
+/* 	background: linear-gradient(20deg, skyblue, hotpink); */
+ 	background: #eee; 
+	border: 3px outset skyblue;
 }
 
 
@@ -83,7 +85,7 @@ $(document).ready(function() {
 <body>
 
 <div class="wrap">
-<jsp:include page="/resources/util/Manage_Page/sideMenu.jsp" />
+<%-- <jsp:include page="/resources/util/Manage_Page/sideMenu.jsp" /> --%>
 
 <div class="container">
 <div class="content">
@@ -131,18 +133,33 @@ ${boardView.bodcontent }<br>
 </div>
 
 <div class="form-group" style="width: 100%">
-	<label for="bodhashtag">해시태그</label><br>
+<!-- 	<label for="bodhashtag">해시태그</label><br> -->
 	<input type="text" id="bodhashtag" name="bodhashtag" value="${boardView.bodhashtag }" readonly="readonly" class="form-control"/>
 </div>
 
+<%-- 
 <c:if test="${boardFileView.filsavefile ne null}">
-<div style="width: 80%; height: 200px; line-height: 200px; text-align: center">
-	<img src="리소스/업로드/${boardFileView.filsavefile }">
-</div>
+	<c:forEach items="${boardFileView }" var="bf">
+		<div style="width: 50%; height: 200px; line-height: 200px; text-align: center">
+			<img src="/resources/upload/${bf.filsavefile }">
+		</div>
+	</c:forEach>
 </c:if>
+ --%>
 
-<button id="back" class="center-block btn-warning btn-lg">이전 페이지로 돌아가기</button>
+<%-- <c:if test="${boardComentView.bodno ne null}"> --%>
+	<c:forEach items="${boardComentView }" var="cmt">
+<!-- 		<div class="form-group" style="width: 50%; margin-left: 10%;" > -->
+		<div class="form-group" style="border: 1px solid black">
+<!-- 			<label for="comwriter">작성자: </label> -->
+			${cmt.comwriter }<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${cmt.comcontent }
+		</div>
+	</c:forEach>
+<%-- </c:if> --%>
 
+
+<!-- <button id="back" class="center-block btn-warning btn-lg">이전 페이지로 돌아가기</button> -->
 
 </div>	<!-- content END -->
 </div>	<!-- container END -->

@@ -40,7 +40,7 @@ window.onload = function() {
 <body>
 
 <div>
-	<h1 class="title">게시판 사용 권한 없음</h1>
+	<h1 class="title">접속 권한이 없습니다.</h1>
 	<hr>
 </div>
 <br>

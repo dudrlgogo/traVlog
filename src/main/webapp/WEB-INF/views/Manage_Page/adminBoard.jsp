@@ -73,7 +73,6 @@ $(document).ready(function() {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 th, td {
@@ -82,15 +81,21 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
 
 .red {
 	color: red;
+}
+
+.pagename {
+	color: skyblue;
+	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
 }
 
 </style>
@@ -106,6 +111,7 @@ span {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">게시물 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -118,7 +124,7 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 게시물 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 게시물 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">
@@ -138,13 +144,15 @@ span {
 <c:forEach items="${list }" var="i">
 	<tr>
 		<td>${i.bodno }</td>
-		<td><a href="/Manage_Page/boardView.do?bodno=${i.bodno }">${i.bodtitle }</a></td>
+		<td>${i.bodtitle }</td>
+<%-- 		<td><a href="/Manage_Page/boardView.do?bodno=${i.bodno }">${i.bodtitle }</a></td> --%>
+<%-- 		<td><a href="#" onclick="javascript:window.open('/Manage_Page/boardView.do?bodno=${i.bodno }','new','left=50, top=50, width=800, height=600')">${i.bodtitle }</a></td> --%>
 		<td>${i.bodname }</td>
 		<td>${i.bodhashtag }</td>
 		<td>${i.bodrecommend }</td>
 		<td>${i.claimed }</td>
 		<td>
-			<fmt:formatDate value="${i.boddate }" pattern="yyyy년MM월dd일 HH:mm:ss" />
+			<fmt:formatDate value="${i.boddate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />
 		</td>
 <%-- 		<td><input type="button" id="deleteBtn" class="btn btn-danger" value="삭제" onClick="location.href='/Manage_Page/deleteBoard.do?bodno=${i.bodno}'"></td> --%>
 		<td><input type="button" id="deleteBtn" class="btn btn-danger" value="삭제" onClick="deleteBoard('${i.bodno}');"></td>

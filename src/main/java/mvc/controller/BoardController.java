@@ -33,6 +33,7 @@ import mvc.dto.Claim;
 import mvc.dto.Comment;
 import mvc.dto.Comments;
 import mvc.dto.Files;
+import mvc.dto.Follow;
 import mvc.dto.FollowingRec;
 import mvc.dto.HashTag;
 import mvc.dto.LatLng;
@@ -78,12 +79,41 @@ public class BoardController {
 		if (memberService.memberCheck(member) == 1) {
 			//아이디와 네임 가져오기
 			Member sessionMember = memberService.getMemberOne(member);
+			// 로그인 시 회원 상태값 확인
+			int memstatus = memberService.getMemberStatus(member);
+			
 			// 로그인 .. memberService 가져오고 아이디와 이름 세션 생성
 			session.setAttribute("memid", sessionMember.getMemid());
 			session.setAttribute("memnick", sessionMember.getMemnick());
 			
-			return "redirect:/traVlog/main.do";
+			session.setAttribute("memstatus", memstatus);
 			
+			// 확인한 상태값으로 메시지 + 페이지 이동
+			if(memstatus == 9) {
+				session.setAttribute("login", true);
+				return "redirect:/Manage_Page/home.do";
+			} else if(memstatus == 1) {
+				session.invalidate();
+				model.addAttribute("msg","본 계정은 사용이 정지된 계정입니다.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+			} else if(memstatus == 2) {
+				session.invalidate();
+				model.addAttribute("msg","블록된 계정입니다.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+			} else if(memstatus == 3) {
+				session.invalidate();
+				model.addAttribute("msg","본 계정은 휴면상태 입니다. 관리자에 문의하세요.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+			} else {
+				// 로그인 성공 시 회원의 마지막 접속일을 기록해둔다. (휴면계정 처리용)
+				session.setAttribute("login", true);
+				memberService.updateMemlastconn(member);
+				
+				return "redirect:/traVlog/main.do";
+			}
 		} else {
 			model.addAttribute("msg","비밀번호가 맞지 않거나 없는 아이디 입니다.");
 			return "util/alert";
@@ -145,16 +175,19 @@ public class BoardController {
 			
 		}else if(member.getSearch() != null || member.getSearch() != "") {
 			//검색어가 있을때..
+			logger.info("검색어가 존재한다.");
 			boardMember.setSearch(member.getSearch());
 			List<Board> boardList = boardService.getBoardListBySearch(boardMember);
 			model.addAttribute("boardList",boardList);
 
 			List<Files> filesList = boardService.getFiles(boardMember);
 			model.addAttribute("filesList",filesList);
+
 			//06.13 게시글 프로필 사진 추가
 			List<Profile> profileList = boardService.getProfileList(boardMember);
 			model.addAttribute("profileList",profileList);
-			System.out.println(boardList.get(0).toString());
+			model.addAttribute("search",member.getSearch());
+
 		}
 
 
@@ -180,17 +213,21 @@ public class BoardController {
 		if(search != "" && search != null) {
 			//검색 값이 존재할 떄
 //			count = count+2;
+			logger.info("검색어가 존재한다.");
 			Member boardMember = new Member();
 			boardMember.setSearch(search);
 			boardMember.setMemid((String)session.getAttribute("memid"));
 			boardMember.setMemnick((String)session.getAttribute("memnick"));
 
-			List<Board> boardList = boardService.getBoardListByFollow(boardMember);
+			List<Board> boardList = boardService.getBoardListBySearch(boardMember);
 			List<Files> filesList = boardService.getFiles(boardMember);
+			model.addAttribute("search",search);
 			model.addAttribute("boardList",boardList);
 			model.addAttribute("filesList",filesList);
 
 		    }else {
+			logger.info("검색값이 없다");
+
 			//검색 값이 없을 떄
 			count = count+2;
 			Member boardMember = new Member();
@@ -621,6 +658,44 @@ public class BoardController {
 			model.addAttribute("commentList",commentList);
 
 		}
+		
+		//친구찾기 ajax 작동
+		@RequestMapping(value="/traVlog/followerFindBySearch.do", method=RequestMethod.GET)
+		public void findFollower(HttpSession session, Model model, Member member) {
+			logger.info("친구검색(followerFindBySearch) GET요청");
+			logger.info("받아온 member.search정보"+member.getSearch());
+			//현재 로그인중인 사람의 id를 가지고 오기..
+			String memid = (String) session.getAttribute("memid");
+			member.setMemid(memid);
+			logger.info("session memnick : "+memid);
+			List<Member> searchMemberList = mainService.getMemberListBySearch(member);
+			List<FollowingRec> recList = mainService.recommend(memid);
+			
+			
+			model.addAttribute("searchMemberList",searchMemberList);
+			model.addAttribute("recList", recList);
+		}
+		
+		//친구찾기에서 팔로우기능 하기..
+	@ResponseBody
+	@RequestMapping(value = "/traVlog/doFollow.do", method = RequestMethod.POST)
+	public HashMap<String, Object> checkId(HttpSession session,String memnick) {
+		
+		logger.info(memnick);
+		Follow insertFollow = new Follow();
+		Member member = new Member();
+		member.setMemnick(memnick);
+		member = memberService.getMemberByNick(member);
+		logger.info(member.toString());
+		insertFollow.setFlwid(member.getMemid());
+		insertFollow.setMemid((String)session.getAttribute("memid"));
+		memberService.insertFollow(insertFollow);
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		hashmap.put("KEY", "YES");
+
+		return hashmap;
+	}
 }
 
 

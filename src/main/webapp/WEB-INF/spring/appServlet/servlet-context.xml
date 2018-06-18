@@ -26,14 +26,14 @@
 		<interceptor>
 			<mapping path="/Manage_Page/**" />		
 <!-- 			<exclude-mapping path="/Manage_Page/home.do"/> -->
-<!-- 			<exclude-mapping path="/Manage_Page/Error.do"/> -->
+			<exclude-mapping path="/Manage_Page/Error.do"/>
 <!-- 			<exclude-mapping path="/Manage_Page/advManage.do"/> -->
 <!-- 			<exclude-mapping path="/Manage_Page/boardManage.do"/> -->
 <!-- 			<exclude-mapping path="/Manage_Page/claimManage.do"/> -->
 <!-- 			<exclude-mapping path="/Manage_Page/paymentManage.do"/> -->
 <!-- 			<exclude-mapping path="/Manage_Page/noticeManage.do"/> -->
 <!-- 			<exclude-mapping path="/Manage_Page/qnaManage.do"/> -->
-			<exclude-mapping path="/Manage_Page/**" />
+<!-- 			<exclude-mapping path="/Manage_Page/**" /> -->
 
 			<beans:bean class="mvc.interceptor.AdminInterceptor" />
 		</interceptor>	

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mvc.dao.MemberDao;
+import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Profile;
 
@@ -25,6 +26,7 @@ public class MemberService {
 
 	public void createMember(Member member) {
 		memberDao.createMember(member);
+		memberDao.createMemberOption(member);
 	}
 
 	public int idcheck(String memid) {
@@ -49,6 +51,25 @@ public class MemberService {
 
 	public ArrayList<Profile> getProfile(String memid) {
 		return memberDao.getProfile(memid);
+	}
+
+	public void insertFollow(Follow insertFollow) {
+		memberDao.insertFollow(insertFollow);
+	}
+
+	public Member getMemberByNick(Member member) {
+		return memberDao.getMemberByNick(member);
+	}
+
+	// 로그인 시 회원의 상태값 확인
+	public int getMemberStatus(Member member) {
+		
+		return memberDao.getMemberStatus(member);
+	}
+
+	// 
+	public void updateMemlastconn(Member member) {
+		memberDao.updateMemlastconn(member);
 	}
 
 }

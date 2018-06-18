@@ -222,18 +222,18 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public int getMemberQna(Question question) {
+	public int getMemberQna(Paging searchContent) {
 
-		int getMemberQna = adminDao.getMemberQna(question);
+		int getMemberQna = adminDao.getMemberQna(searchContent);
 
 		return getMemberQna;
 	}
 
 	@Override
-	public List getPagingMemberQnaList(Question question, Paging paging) {
+	public List getPagingMemberQnaList(Paging paging) {
 
 //		return adminDao.pagingMemberQnaList(question, paging);
-		return adminDao.pagingMemberQnaList(question);
+		return adminDao.pagingMemberQnaList(paging);
 	}
 
 	@Override
@@ -357,9 +357,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List getCommentsList() {
+	public List getCommentsList(Board board) {
 
-		return adminDao.getCommentsListByCommentno();
+		return adminDao.getCommentsListByCommentno(board);
 	}
 
 

@@ -79,7 +79,6 @@ select option:hover {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 th, td {
@@ -88,9 +87,10 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -105,9 +105,10 @@ span {
 	margin:0 auto;
 }
 
-/* .sizeup {
-	width: 7%;
-} */
+.pagename {
+	color: skyblue;
+	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+}
 
 </style>
 
@@ -123,6 +124,8 @@ span {
 <div class="content">
 
 <div class="clearfix"></div>
+
+<h1 class="pagename">회원 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -135,7 +138,7 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 회원 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 회원 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">
@@ -189,10 +192,10 @@ span {
 					<option value="9">회원상태 : 관리자</option>
 				</c:if>
 				
-				<option value="0">일반(0)</option>
-				<option value="1">일주일 계정정지(1)</option>
-				<option value="2">계정블록(2)</option>
-				<option value="9">관리자 계정(9)</option>
+				<option value="0">일반</option>
+				<option value="1">일주일 계정정지</option>
+				<option value="2">계정블록</option>
+				<option value="9">관리자 계정</option>
 			</select>
 		</td>
 
@@ -200,7 +203,7 @@ span {
 			<c:choose>
 				<c:when test="${i.mempausetime eq null}">N/A</c:when>
 				<c:when test="${i.mempausetime ne null}">
-					<fmt:formatDate value="${i.mempausetime }" pattern="yyyy년MM월dd일" />
+					<fmt:formatDate value="${i.mempausetime }" pattern="yyyy년MM월dd일까지" />
 				</c:when>
 			</c:choose>
 		</td>

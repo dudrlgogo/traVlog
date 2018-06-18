@@ -37,5 +37,21 @@
 	<select id="getProfile" parameterType="String" resultType="mvc.dto.Profile">
 		SELECT * FROM tb_profile WHERE memid=#{memid}
 	</select>
+	<insert id="insertFollow" parameterType="mvc.dto.Follow">
+		INSERT INTO TB_FOLLOW(MEMID,FLWID) VALUES(#{memid},#{flwid})
+	</insert>
+	<select id="getMemberByNick" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		select * from tb_member where memnick=#{memnick}
+	</select>
+	<insert id="createMemberOption" parameterType="mvc.dto.Member">
+		insert into tb_member_option(MEMID,MOPACCOUNT) values(#{memid},0)
+	</insert>
 	
+	<select id="getMemberStatus" parameterType="mvc.dto.Member" resultType="int">
+		SELECT mopaccount FROM tb_member_option WHERE memid = #{memid }
+	</select>
+	
+	<update id="updateMemlastconn" parameterType="mvc.dto.Member">
+		UPDATE tb_member SET memlastconn = sysdate WHERE memid = #{memid }
+	</update>
 </mapper>

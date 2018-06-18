@@ -25,8 +25,8 @@
 
 .content{
 	margin:0 auto;
-/* 	background: linear-gradient(20deg, skyblue, #eee); */
-	background: skyblue;
+ 	background: #eee; 
+	border: 3px outset skyblue;
 }
 
 .notcontent {
@@ -61,19 +61,19 @@
 <hr>
 </div><br>
 
-<div class="form-group" style="width: 15%">
+<div class="form-group" style="width: 10%">
 	<label for="notno">공지사항 번호</label><br>
 	<input type="text" id="notno" name="notno" value="${noticeView.notno }" readonly="readonly" class="form-control" />
 </div>
 
-<div class="form-group" style="width: 25%">
-	<label for="notdate">작성일</label><br>
-<input type="text" id="notdate" name="notdate" value="<fmt:formatDate value="${noticeView.notdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />" readonly="readonly"  class="form-control">
-</div>
-
-<div class="form-group" style="width: 59%">
+<div class="form-group" style="width: 64%">
 	<label for="nottitle">제목</label><br>
 	<input type="text" id="nottitle" name="nottitle" value="${noticeView.nottitle }" readonly="readonly" class="form-control"/>
+</div>
+
+<div class="form-group" style="width: 25%">
+	<label for="notdate">작성일</label><br>
+<input type="text" id="notdate" name="notdate" value="<fmt:formatDate value="${noticeView.notdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />" readonly="readonly"  class="form-control">
 </div>
 
 <div class="form-group">
