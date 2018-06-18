@@ -1,12 +1,14 @@
 package mvc.service;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mvc.dao.MemberDao;
+import mvc.dao.SettingDao;
 import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Profile;
@@ -14,6 +16,7 @@ import mvc.dto.Profile;
 @Service
 public class MemberService {
 	@Autowired MemberDao memberDao;
+	@Autowired SettingDao settingDao;
 	
 	//1이면 데이타 일치, 0이면 데이타 없음
 	public int memberCheck(Member member) {
@@ -59,5 +62,35 @@ public class MemberService {
 	public Member getMemberByNick(Member member) {
 		return memberDao.getMemberByNick(member);
 	}
+	
+	// 회원정보 상세
+	public Member setUserinfo(Member member) {
+		return settingDao.setUserinfo(member);
+	}
+
+	public Member getUserinfo(Member member) {
+		return settingDao.getUserinfo(member);
+	}
+
+	// 회원정보 수정
+	public void updateUserinfo(Member member) {
+		settingDao.updateUserinfo(member);
+	}
+	
+//	// 비번 체크
+//	public boolean checkPw(Member member) {
+//		return settingDao.checkPw(member);
+//	}
+	
+	// 팔로우목록
+	public List getflw(String id) {
+		return settingDao.getflw(id);
+	}
+	
+	// 팔로워목록
+	public List getflwing(String id) {
+		return settingDao.getflwing(id);
+	}
+
 
 }

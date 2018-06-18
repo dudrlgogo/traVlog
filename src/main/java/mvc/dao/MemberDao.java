@@ -1,6 +1,7 @@
 package mvc.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import mvc.dto.Follow;
@@ -31,4 +32,9 @@ public interface MemberDao {
 	public void insertFollow(Follow insertFollow);
 
 	public Member getMemberByNick(Member member);
+	
+	public List<Follow> getflw(Follow flw);
+	
+	public Member selectMemberBymemid(Member member);
+
 }

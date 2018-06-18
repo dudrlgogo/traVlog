@@ -43,4 +43,14 @@
 	<select id="getMemberByNick" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
 		select * from tb_member where memnick=#{memnick}
 	</select>
+	
+	<select id="getflw" parameterType="String" resultType="mvc.dto.Follow">
+		SELECT flwid FROM TB_FOLLOW WHERE memid=#{memid}
+	</select>
+	
+	
+	<select id="selectMemberBymemid" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		SELECT * FROM TB_MEMBER
+		WHERE MEMID=#{memid}
+	</select>
 </mapper>
