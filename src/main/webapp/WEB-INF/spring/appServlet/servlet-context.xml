@@ -48,6 +48,7 @@
 	<resources mapping="/js/**" location="/resources/js/" /> 
 	<resources mapping="/resources/**" location="/resources/" /> 
 	<resources mapping="/util/**" location="/resources/util/" /> 
+	<resources mapping="/upload/**" location="/resources/upload/" />
 
 	 <!--  downloadViewResolver 우선순위 0--> 
  	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">

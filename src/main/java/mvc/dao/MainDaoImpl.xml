@@ -85,7 +85,7 @@
 			        )F
 			        ORDER BY rnum
 			    )R
-			    WHERE R.rnum <=10
+			    WHERE R.rnum <=10 
 		]]>
 	</sql>
 	
@@ -103,6 +103,7 @@
 		SELECT memnick, memfollower From tb_member
 		WHERE memid = 'ad_traVlog'
 	</select>
+	
 	<select id="getMemberListBySearch" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
 		SELECT MEMNICK FROM TB_MEMBER WHERE MEMNICK LIKE '%'||#{search}||'%' AND MEMID 
                             NOT IN (#{memid})

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import mvc.dto.Advertising;
 import mvc.dto.Board;
 import mvc.dto.Claim;
 import mvc.dto.Comment;
@@ -98,23 +99,42 @@ public class BoardController {
 	}
 	
 	//logout
-//	@RequestMapping(value = "/traVlog/logout.do", method = RequestMethod.GET)
-//	public String logout(Member member, HttpSession session) {
-//		session.invalidate();
-//		return "traVlog/login";
-//	}
+	@RequestMapping(value = "/traVlog/logout.do", method = RequestMethod.GET)
+	public String logout(Member member, HttpSession session) {
+		session.invalidate();
+		return "redirect:/traVlog/login.do";
+	}
 	
 	@RequestMapping(value = "/traVlog/main.do", method = RequestMethod.GET)
 	public String main(Member member, HttpSession session, Model model) {
 		logger.info("메인페이지 GET요청");
 		//로그인한 사용자 아이디 가져오기
 		String memid = (String) session.getAttribute("memid");
-		logger.info(memid);
+		String memnick = (String) session.getAttribute("memnick");
+		logger.info("아이디가 멀까요?"+memid);
+		logger.info("닉네임은?!"+memnick);
 		
+		//광고 정보 가져오기
+		ArrayList<Advertising> adInfo = memberService.adInfo();
+		model.addAttribute("adInfo", adInfo);
+		logger.info("광고정보 들어오나요?"+adInfo);
+				
 		//사용자 정보 가져오기
 		ArrayList<Member> memberInfo = memberService.MemberInfo(memid);
-		ArrayList<Profile> profile = memberService.getProfile(memid);
-		
+
+		//사용자가 등록한 프로필 사진이 있는지 count
+		int isExistsProfile = memberService.countProfile(memnick);
+		String profile = "";
+		if(isExistsProfile >= 1) { //프로필 사진이 있으면...
+			profile = memberService.getProfile(memnick);
+			logger.info("프로필! 뭐가들어있나용"+profile);
+			model.addAttribute("profile", profile);
+		} 
+		else {  //없으면 null
+			profile = "user.png";
+			model.addAttribute("profile", profile);
+			logger.info("넌 뭐냐" + profile);
+		}
 		//인기 해시태그
 		ArrayList<HashTag> tagList = mainService.topHash();
 		
@@ -139,10 +159,10 @@ public class BoardController {
 			model.addAttribute("filesList",filesList);
 			model.addAttribute("profileList",profileList);
 			
-			logger.info("대체 여기엔 뭐가들어있는데?"+boardMember.getMemid());
-			logger.info("여기 안돌아가냐?");
-//			System.out.println("왜 안나와?"+boardList.get(0).toString());
-//			System.out.println("프로필 사진 정보가 들어있나요?"+profileList.get(0).toString());
+//			logger.info("대체 여기엔 뭐가들어있는데?"+boardMember.getMemid());
+//			logger.info("여기 안돌아가냐?");
+//			logger.info("왜 안나와?"+boardList.get(0).toString());
+//			logger.info("프로필 사진 정보가 들어있나요?"+profileList.get(0).toString());
 			
 		}else if(member.getSearch() != null || member.getSearch() != "") {
 			//검색어가 있을때..
@@ -158,6 +178,7 @@ public class BoardController {
 			List<Profile> profileList = boardService.getProfileList(boardMember);
 			model.addAttribute("profileList",profileList);
 			model.addAttribute("search",member.getSearch());
+			logger.info(boardList.get(0).toString());
 
 		}
 		
@@ -175,7 +196,6 @@ public class BoardController {
 		model.addAttribute("memberInfo", memberInfo);
 		model.addAttribute("tagList", tagList);
 		model.addAttribute("memberList", memList);
-		model.addAttribute("profile", profile);
 		
 		return "traVlog/main";
 	}
@@ -246,9 +266,8 @@ public class BoardController {
 		ModelAndView mav;
         String name=(String) paramMap.get("idmemname");
         String e_mail=(String) paramMap.get("idmememail");
-        System.out.println(paramMap);
         String id=memberService.findId(paramMap);
-        System.out.println(id);
+        logger.info(id);
         if(id!=null) {
             email.setContent("[traVlog] 아이디를 확인해주세요.\n "
             		+ "본 메일은 아이디 확인을 위해 발송되는 메일입니다.\n\n\n "
@@ -278,7 +297,7 @@ public class BoardController {
         String id=(String) paramMap.get("pwmemid");
         String e_mail=(String) paramMap.get("pwmememail");
         String pw=memberService.findPw(paramMap);
-        System.out.println(pw);
+        logger.info(pw);
         if(pw!=null) {
             email.setContent("[traVlog] 비밀번호를 변경해주세요.\n "
             		+ "본 메일은 비밀번호 확인을 위해 발송되는 메일입니다.\n "
@@ -319,8 +338,8 @@ public class BoardController {
 			if(list.get(0).getOriginalFilename() != null && list.get(0).getOriginalFilename()!="") {
 				
 			for(int i=0; i<list.size(); i++) {
-				System.out.println(list.get(i).getOriginalFilename());
-				System.out.println("이건가?"+list.get(i).getContentType());
+				logger.info(list.get(i).getOriginalFilename());
+				logger.info("이건가?"+list.get(i).getContentType());
 			}
 			String uID = UUID.randomUUID().toString().split("-")[0];
 			//파일 경로 가져오기
@@ -554,7 +573,7 @@ public class BoardController {
 			//게시글 정보 가져오기
 			logger.info("가져온 게시글 정보"+board.toString());
 			Board claimBoard = boardService.getBoardInfo(board);
-			System.out.println(claimBoard.toString());
+			logger.info(claimBoard.toString());
 			
 			model.addAttribute("claimBoard",claimBoard);
 		}

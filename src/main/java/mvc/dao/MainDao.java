@@ -24,5 +24,7 @@ public interface MainDao {
 	public ArrayList<FollowingRec> admin();
 
 	public List<Member> getMemberListBySearch(Member member);
+
+	public ArrayList<FollowingRec> recMember(Member recMember);
 	
 }

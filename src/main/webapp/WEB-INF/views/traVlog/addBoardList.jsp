@@ -14,15 +14,17 @@
 				value="${board.bodno }">
 			<div class="memInfo">
 				<!--      정민   06.13 게시글별 프로필 이미지 넣기 완료 -->
-				<c:forEach items="${profileList}" var="Bprofile">
-					<c:if test="${Bprofile.pfSavefile != null }">
-						<img class="userimg"
-							src="/resources/upload/${Bprofile.pfSavefile }">
-					</c:if>
-					<c:if test="${Bprofile.pfSavefile == null }">
-						<img class="userimg" src="/resources/upload/icon/user.png">
-					</c:if>
-				</c:forEach>
+				 <c:forEach items="${profileList}" var="profileList">
+               <c:if test="${profileList.pfSavefile != null }">
+                  <c:if test="${profileList.memnick eq board.bodname}">
+                  <img class="userimg"
+                     src="/resources/upload/${profileList.pfSavefile }">
+                  </c:if>
+               </c:if>
+	               <c:if test="${profileList.pfSavefile == null }">
+	                  <img class="userimg" src="/resources/upload/icon/user.png">
+	               </c:if>
+            	</c:forEach>
 				<strong class="nick">${board.bodname }</strong> <a
 					href="/traVlog/claim.do?bodno=${board.bodno }"
 					id="claim_${board.bodno }"

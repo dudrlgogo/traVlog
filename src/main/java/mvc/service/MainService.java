@@ -53,4 +53,9 @@ public class MainService {
 	}
 
 
+	public ArrayList<FollowingRec> recommend(Member recMember) {
+		return mainDao.recMember(recMember);
+	}
+
+
 }

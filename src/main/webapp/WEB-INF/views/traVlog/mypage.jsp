@@ -23,13 +23,6 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-	$("#btnLogout").click(function(){
-		$(location).attr("href","/logout.do");
-	});
-	
-</script>
 
 </head>
 
@@ -49,16 +42,18 @@ $(document).ready(function(){
 						<button class="profilebtn"
 							onclick="location.href='settingprofile.do'">프로필 편집</button>
 						<div class="usernick">${f.memnick }</div>
-						<div class="setting">
-							<a href="message.do"><img class="messageimg"
-								src="/resources/images/icon/message.png"></a><br>
-						</div>
 						<div class="userinfo">${f.pfText }</div>
 						</c:forEach>
 						
 						<div class="setting">
-							<a href="message.do"onclick="window.open(this.href,'메시지 보내기','width=450,height=450,scrollbars=yes');return false;">
-							<img class="messageimg" src="/resources/images/icon/message.png"></a><br>
+							<a onclick="showPopup();" style="cursor:pointer"><img class="messageimg"
+								src="/resources/images/icon/message.png" ></a>
+						 	<a href="sendmessage.do?memid=${selectMember.memid }"><img class="messageimg"
+								src="/resources/images/icon/message.png"></a><br>
+							 <a href="getmessage.do">
+							<img class="messageimg"
+								src="/resources/images/icon/message.png"></a><br> 
+					
 							<a href="/traVlog/logout.do">로그아웃</a>
 						</div>
 						
@@ -186,6 +181,16 @@ $(document).ready(function(){
 // 			alert('실행대씀');
 // 			return false;
 // 		});
+
+	$("#btnLogout").click(function(){
+		$(location).attr("href","/logout.do");
+	});
+	
+	function showPopup() { 
+		window.open("report.do?memnick='${memnick }'", 
+		"a", "width=400, height=300, left=100, top=50"
+				
+		);}
 	});
 	
 	function contentview(a){

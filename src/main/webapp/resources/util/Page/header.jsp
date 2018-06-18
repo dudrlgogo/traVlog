@@ -21,11 +21,10 @@
 	</div>
 	<img id="searchBtn" alt="검색" src="/resources/images/icon/search.png">
 
-	<a class="mypage" href="/traVlog/mypage.do?memnick=${memnick }"><img alt="마이페이지" src="/resources/images/icon/user.png" width="50px;"></a>
-	<a class="find" href="/traVlog/followerfind.do"><img alt="친구찾기" src="/resources/images/icon/find.png" width="50px;"></a>
-	<a class="feed" href="/traVlog/main.do"><img alt="피드" src="/resources/images/icon/feed.png" width="50px;"></a>
-	<a class="write" href="/traVlog/write.do"><img alt="글쓰기" src="/resources/images/icon/write.png" width="50px;"></a>
-	
+   <a class="logout" href="/traVlog/logout.do"><img alt="로그아웃" src="/resources/images/icon/logout.png" width="50px;"></a>
+   <a class="mypage" href="/traVlog/mypage.do?memnick=${memnick }"><img alt="마이페이지" src="/resources/images/icon/user.png" width="50px;"></a>
+   <a class="find" href="/traVlog/followerfind.do"><img alt="친구찾기" src="/resources/images/icon/find.png" width="50px;"></a>
+   <a class="write" href="/traVlog/write.do"><img alt="글쓰기" src="/resources/images/icon/write.png" width="50px;"></a>
 
 </div><!-- // End #header -->
 

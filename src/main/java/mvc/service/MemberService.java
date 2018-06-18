@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import mvc.dao.MemberDao;
+import mvc.dao.MessageDao;
 import mvc.dao.SettingDao;
+import mvc.dto.Advertising;
 import mvc.dto.Follow;
 import mvc.dto.Member;
-import mvc.dto.Profile;
+import mvc.dto.Message;
+import mvc.dto.Question;
+import mvc.dto.Report;
 
 @Service
 public class MemberService {
 	@Autowired MemberDao memberDao;
+	@Autowired MessageDao messageDao;
 	@Autowired SettingDao settingDao;
 	
 	//1이면 데이타 일치, 0이면 데이타 없음
@@ -51,9 +56,21 @@ public class MemberService {
 		return memberDao.MemberInfo(memid);
 	}
 
-	public ArrayList<Profile> getProfile(String memid) {
-		return memberDao.getProfile(memid);
-	}
+	public String getProfile(String memnick) {
+	      return memberDao.getProfile(memnick);
+   }
+
+   public int countProfile(String memnick) {
+      return memberDao.countProfile(memnick);
+   }
+
+   public void followAdmin(Member member) {
+      memberDao.followAdmin(member);
+   }
+
+   public ArrayList<Advertising> adInfo() {
+      return memberDao.adInfo();
+   }
 
 	public void insertFollow(Follow insertFollow) {
 		memberDao.insertFollow(insertFollow);
@@ -91,6 +108,52 @@ public class MemberService {
 	public List getflwing(String id) {
 		return settingDao.getflwing(id);
 	}
+	
+	
+	
+	 public void sendingmessage(Message message) {
+		  messageDao.sendingmessage(message);
+	   }
+	/*public void reportProc(Member member,Report report) {
+		return memberDao.reportProc(member,report);
+	}	*/
+
+	public void report(Report report) {
+		memberDao.report(report);
+	}
+
+	public void advertising(Advertising advertising) {
+		memberDao.advertising(advertising);
+		
+	}
+
+	public List showadvertising(Advertising advertising) {
+
+		return memberDao.showadvertising(advertising);
+	}
+
+	public void qnapage2(Question question) {
+	 memberDao.qnapage2(question);
+		
+	}
+
+	public List showquestion(Question question) {
+		return memberDao.showquestion(question);
+	
+	}
+
+	public void message(Message message) {
+		memberDao.message(message);
+	}
+
+	public Member getMemberByMemId(Member member) {
+		return memberDao.getMemberByMemId(member);
+	}
+
+	public Advertising getAdvertisingByAd(Advertising adInfo) {
+		return memberDao.getAdvertisingByAd(adInfo);
+	}
+
 
 
 }

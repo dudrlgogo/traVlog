@@ -193,4 +193,9 @@
 
 }
 
-
+.boardMap{
+	width: 550px;
+	height: 375px;
+	display: block;
+	border: 3px solid #92A8D1;
+}
