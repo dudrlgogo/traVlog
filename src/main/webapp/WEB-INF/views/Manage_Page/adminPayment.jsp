@@ -86,7 +86,7 @@ th {
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 2px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 2px gold; */
 }
 
 </style>

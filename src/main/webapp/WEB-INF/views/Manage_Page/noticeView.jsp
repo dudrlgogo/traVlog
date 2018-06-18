@@ -42,7 +42,7 @@
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -76,10 +76,12 @@
 <input type="text" id="notdate" name="notdate" value="<fmt:formatDate value="${noticeView.notdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />" readonly="readonly"  class="form-control">
 </div>
 
-<div class="form-group">
-	<label for="notfile">첨부파일: </label>
-	<a href="/Manage_Page/nfdownload.do?notno=${noticeFile.notno }">${noticeFile.nforiginfile }</a><br>
-</div><br>
+<c:if test="${noticeFile.nforiginfile ne null}">
+	<div class="form-group">
+		<label for="notfile">첨부파일: </label>
+		<a href="/Manage_Page/nfdownload.do?notno=${noticeFile.notno }">${noticeFile.nforiginfile }</a><br>
+	</div><br>
+</c:if>
 
 <div class="notcontent" id="notcontent">
 	<label for="notcontent"></label><br>

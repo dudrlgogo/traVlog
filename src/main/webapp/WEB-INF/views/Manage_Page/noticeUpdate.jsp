@@ -41,7 +41,7 @@ function submitContents(elClickedObj) {
  		alert("제목을 입력하세요.");
  		document.getElementById("nottitle").focus();
  		return false;
-	} else if(document.getElementById("nottitle").value.length >= 15) {
+	} else if(document.getElementById("nottitle").value.length >= 25) {
  		alert("제목 길이 제한 초과!!");
  		document.getElementById("nottitle").focus();
 		return false;
@@ -49,7 +49,7 @@ function submitContents(elClickedObj) {
 		alert("본문 내용을 입력하세요.");
 		document.getElementById("notcontent").focus();
 		return false; 
-	} else if(document.getElementById("notcontent").value.length >= 400) {
+	} else if(document.getElementById("notcontent").value.length >= 2500) {
 		alert("본문 길이 제한 초과!!");
 		document.getElementById("notcontent").focus();
 		return false;
@@ -73,7 +73,7 @@ function submitContents(elClickedObj) {
 <style type="text/css">
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 </style>
 

@@ -80,7 +80,7 @@ th {
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -111,7 +111,7 @@ th {
 <hr>
 <span class="pull-right" id="totalno">조회된 신고 수 : ${paging.totalCount }</span>
 <br>
-<a href="/Manage_Page/claimPdfList.do">PDF로 출력하기</a>
+<!-- <a href="/Manage_Page/claimPdfList.do">PDF로 출력하기</a> -->
 
 <table class="table table-striped table-hover">
 <thead>

@@ -29,8 +29,8 @@ window.onload = function() {
 
 .images {
 	width: 100%; 
-	height: 200px; 
-	line-height: 200px; 
+	height: 400px; 
+	line-height: 400px; 
 	text-align: center;
 }
 
@@ -46,13 +46,13 @@ window.onload = function() {
 <br>
 
 <div class="images">
-	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaQvzoFQ2-I1sPPpDEBEIBnkFNv0UfwnuBw3-8ye9KZSF7dqs2Zg">
+<!-- 	<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaQvzoFQ2-I1sPPpDEBEIBnkFNv0UfwnuBw3-8ye9KZSF7dqs2Zg"> -->
+	<img src="/resources/images/BackGround/AdminError.png" style="width: 30%; max-width: 500px; vertical-align: middle">
 </div>
-<hr>
+<hr><br><br><br><br>
 
 <div>
-	관리자 에러 페이지
-	<span id="time">3</span>초후 메인화면으로 이동합니다...
+	<span id="time">3</span>초후 로그인 화면으로 이동합니다...
 </div>
 
 </body>

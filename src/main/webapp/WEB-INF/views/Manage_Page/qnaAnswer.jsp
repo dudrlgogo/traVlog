@@ -38,7 +38,7 @@ function submitContents(elClickedObj) {
  		alert("제목을 입력하세요.");
  		document.getElementById("anstitle").focus();
  		return false;
-	} else if(document.getElementById("anstitle").value.length >= 15) {
+	} else if(document.getElementById("anstitle").value.length >= 25) {
  		alert("제목 길이 제한 초과!!");
  		document.getElementById("anstitle").focus();
 		return false;
@@ -46,7 +46,7 @@ function submitContents(elClickedObj) {
 		alert("본문 내용을 입력하세요.");
 		document.getElementById("anscontent").focus();
 		return false; 
-	} else if(document.getElementById("anscontent").value.length >= 400) {
+	} else if(document.getElementById("anscontent").value.length >= 2500) {
 		alert("본문 길이 제한 초과!!");
 		document.getElementById("anscontent").focus();
 		return false;

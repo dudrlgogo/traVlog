@@ -107,7 +107,7 @@ th {
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -151,13 +151,13 @@ th {
 		<th>이메일</th>
 		<th>연락처</th>
 		<th class="sizeup">포스팅</th>
-		<th class="sizeup">팔로워</th>
-		<th class="sizeup">팔로잉</th>
+<!-- 		<th class="sizeup">팔로워</th> -->
+<!-- 		<th class="sizeup">팔로잉</th> -->
 		<th>게시물 신고</th>
 		<th>회원 신고</th>
 		<th>회원상태</th>
 		<th>정지기간</th>
-		<th>회원상태 수정</th>
+		<th>상태 수정</th>
 	</tr>
 </thead>
 <tbody>
@@ -166,12 +166,17 @@ th {
 		<td>${i.memid }</td>
 		<td>${i.memnick }</td>
 		<td class="sizeup">${i.memage }</td>
-		<td class="sizeup">${i.memsex }</td>
+		<td>
+			<c:choose>
+				<c:when test="${i.memsex eq 'mail'}">남</c:when>
+				<c:when test="${i.memsex eq 'femail'}">여</c:when>
+			</c:choose>
+		</td>
 		<td>${i.mememail }</td>
 		<td>${i.memphone }</td>
 		<td class="sizeup">${i.memposting }</td>
-		<td class="sizeup">${i.memfollower }</td>
-		<td class="sizeup">${i.memfollwing }</td>
+<%-- 		<td class="sizeup">${i.memfollower }</td> --%>
+<%-- 		<td class="sizeup">${i.memfollwing }</td> --%>
 		<td>${i.claimed }회</td>
 		<td>${i.memclaimed }회</td>
 		<td>

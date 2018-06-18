@@ -95,7 +95,7 @@ th {
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>

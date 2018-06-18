@@ -114,7 +114,7 @@ public class Member {
 	public String toString() {
 		return "member=[ " + "memid: " + memid + ", mempw: " + mempassword + ", memnick: " + memnick + ", memsex: "
 				+ memsex + ", memage: " + memage + ", mememail: " + mememail + ", memphone: "
-				+ memphone + " ]";
+				+ memphone +", search: "+ search + " ]";
 	}
 
 	public String getSearch() {

@@ -221,9 +221,8 @@ public class AdminController {
 		
 		// 파일이 저장될 경로
 		String realpath = context.getRealPath("/resources/upload/");
-		System.out.println("[Test] 공지사항 파일 업로드 경로"+realpath);
 
-		System.out.println("[Test] 공지사항 파일저장경로 확인 : "+realpath);
+//		System.out.println("[Test] 공지사항 파일저장경로 확인 : "+realpath);
 		// 파일이 저장될 이름
 		String stored = file.getOriginalFilename()+"_"+uID;
 
@@ -275,7 +274,7 @@ public class AdminController {
 	@RequestMapping(value="/Manage_Page/nfdownload.do", method=RequestMethod.GET)
 	public ModelAndView noticeFileDownload(NoticeFile noticefile) {
 		
-		String path = context.getRealPath("upload");
+		String path = context.getRealPath("/resources/upload/");
 		String filename = adminService.getSavedNoticeFileName(noticefile);
 		
 		File notfile = new File(path, filename);
@@ -326,7 +325,7 @@ public class AdminController {
 		
 		Paging paging = new Paging(totalCount, curPage);
 		paging.setSearchContent(searchContent.getSearchContent());
-		System.out.println("[Test] 뭔가 나오나? 제발좀 : "+paging.getSearchContent());
+//		System.out.println("[Test] 뭔가 나오나? 제발좀 : "+paging.getSearchContent());
 		model.addAttribute("paging", paging);		
 		
 		
@@ -353,9 +352,9 @@ public class AdminController {
 		
 		logger.info("문의사항 답변 작성!!");
 
-		System.out.println("[Test] 타이틀: "+answer.getAnstitle());
-		System.out.println("[Test] 내용: "+answer.getAnscontent());
-		System.out.println("[Test] 글번호: "+answer.getQusno());
+//		System.out.println("[Test] 타이틀: "+answer.getAnstitle());
+//		System.out.println("[Test] 내용: "+answer.getAnscontent());
+//		System.out.println("[Test] 글번호: "+answer.getQusno());
 		
 		adminService.insertQnaAnswer(answer);
 		

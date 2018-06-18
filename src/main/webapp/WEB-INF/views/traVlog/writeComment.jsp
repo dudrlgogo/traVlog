@@ -41,16 +41,8 @@
 	}
 </script>
 <c:forEach items="${commentList}" var="comment">
-
-	<label><strong>${comment.comwriter }</strong></label>
-	<span style="word-break: break-all;">${comment.comcontent }</span>
-	
-<!-- 	<div class="buttons"> -->
-<%-- 	<c:if test="${comment.comwriter == sessionScope.memnick }"> --%>
-<%-- 		<button onclick="showUpdateTag('${comment.comno}')">수정</button> --%>
-<%-- 		<button onclick="comDelete('${comment.comno }','${board.bodno }')">삭제</button> --%>
-<%-- 	<label><strong class="commentNick">${comment.comwriter }</strong></label> --%>
-<%-- 	<span style="word-break: break-all; font-size: 16px;">${comment.comcontent }</span> --%>
+	<label><strong class="commentNick">${comment.comwriter }</strong></label>
+	<span style="word-break: break-all; font-size: 16px;">${comment.comcontent }</span>
 	
 	<div class="buttons">
 	<c:if test="${comment.comwriter == sessionScope.memnick }">
@@ -64,15 +56,9 @@
 	<!-- 수정파트(토글) -->
 	<div id="commentUpdateDiv_${comment.comno }"style="display:none;">
 	<br>
-
-	<label id="showUpdateId_${comment.comno }" ><strong>${comment.comwriter }</strong></label>
-	<input style="width:78%;" type="text" id="showUpdateTag_${comment.comno }" value="${comment.comcontent }"></input>
-	<button onclick="comUpdate('${comment.comno}')">수정완료</button>
-
 	<label id="showUpdateId_${comment.comno }" ><strong class="commentNick">${comment.comwriter }</strong></label>
 	<input style="width:78%;" type="text" id="showUpdateTag_${comment.comno }" value="${comment.comcontent }"></input>
 	<a href="javascript:void(0);" onclick="comUpdate('${comment.comno}')">수정완료</a>
-
 	</div>
 	<!-- 수정파트(토글) -->
 	<br>
@@ -86,24 +72,6 @@
 	<div style="padding-left:30px; padding-bottom:5px;">
 		<c:forEach items="${commentsList }" var="comments">
 		 <c:if test="${comment.comno == comments.comno}">
-<<<<<<< HEAD
-			<label><strong>${comments.coswriter }</strong></label>
-			<span style="word-break: break-all;">${comments.coscontent }</span>
-			<!-- 대댓글 수정/삭제 버튼 -->
-			<c:if test="${comments.coswriter == sessionScope.memnick }">
-				<button onclick="showUpdateCos('${comments.cosno}')">수정</button>
-				<button onclick="cosDelete('${comments.cosno }')">삭제</button>
-			</c:if>
-			<br>
-			<!-- 수정파트(토글) -->
-				<div id="commentsUpdateDiv_${comments.cosno }" style="display:none;">
-				<br>
-				<label id="showUpdateIdCos_${comments.cosno }" ><strong>${comments.coswriter }</strong></label>
-				<input style="width:78%;" type="text" id="showUpdateCos_${comments.cosno }" value="${comments.coscontent }"></input>
-				<button onclick="cosUpdate('${comments.cosno}')">수정완료</button>
-				</div>
-			<!-- 수정파트(토글) -->
-=======
 			<label><strong class="commentNick">${comments.coswriter }</strong></label>
 			<span style="word-break: break-all;font-size: 16px;">${comments.coscontent }</span>
 			<!-- 대댓글 수정/삭제 버튼 -->
@@ -121,7 +89,6 @@
 				<a href="javascript:void(0);" onclick="cosUpdate('${comments.cosno}')">수정완료</a>
 				</div>
 			<!-- 대댓글수정파트(토글) -->
->>>>>>> a26792b303ec15208e623b88fc014a24d999977d
 		 </c:if>
 		</c:forEach>
 	</div>
