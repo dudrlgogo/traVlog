@@ -1,5 +1,6 @@
 package mvc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import mvc.dto.Board;
 import mvc.dto.Files;
 import mvc.dto.Member;
+import mvc.dto.Profile;
 import mvc.service.MypageService;
 
 @Controller
@@ -38,6 +40,27 @@ public class MypageController {
 		model.addAttribute("selectMember", selectmember);
 		model.addAttribute("selectpage", selectpage);
 		model.addAttribute("selectpic", selectpic);
+		
+		int boardCount = mypageService.selectmybod((String)session.getAttribute("memid"));
+		int followerCount = mypageService.selectflwer((String)session.getAttribute("memid"));
+		int followingCount = mypageService.selectflwing((String)session.getAttribute("memid"));
+		
+		String memid = (String) session.getAttribute("memid");
+	
+		model.addAttribute("boardCount",boardCount);
+		model.addAttribute("followerCount",followerCount);
+		model.addAttribute("followingCount",followingCount);
+		
+		ArrayList<Profile> pf = mypageService.getprofile(memid);
+		model.addAttribute("pf", pf);
+		
+		logger.info("프로필 정보!" + pf);
+		
+//		// 보관한 글만 보기
+//		String memnick = member.getMemnick();
+//		List pinnedPic = mypageservice.selectPinnedpic(memnick);
+//		
+//		model.addAttribute("pinnedPic", pinnedPic);
 		
 	}
 	

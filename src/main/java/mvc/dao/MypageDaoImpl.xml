@@ -25,5 +25,65 @@
 	<select id="selectContentPic" parameterType="mvc.dto.Board" resultType="mvc.dto.Files" >
 		SELECT * FROM TB_BOARD bod, TB_FILES fil WHERE bod.bodno = #{bodno} and fil.bodno = #{bodno}
 	</select>
+	
+	<select id="getProfile" parameterType="String" resultType="mvc.dto.Profile">
+		SELECT pfSavefile, pfText FROM (select pfSavefile, pfText from 
+		TB_PROFILE 
+		WHERE MEMID=#{memid}
+		order by PFDATE desc) p
+      	WHERE rownum =1
+	</select>
+	
+	<insert id="insertimg" parameterType="mvc.dto.Profile">
+		INSERT INTO TB_PROFILE(memid, pfImg, pfText, pfOriginfile, pfSavefile, pfSize, pfDate)
+		VALUES(#{memid}, null,#{pfText},#{pfOriginfile},#{pfSavefile},#{pfSize},sysdate)
+
+	</insert>
+	
+	<update id="updatepf" parameterType="mvc.dto.Profile">
+		UPDATE TB_PROFILE
+		SET MEMID = #{memid},
+			PFIIMG = null,
+			PFTEXT = #{pfText}, 
+			pfOriginfile = #{pfOriginfile}, 
+			pfSavefile = #{pfSavefile}, 
+			pfSize = #{pfSize}, 
+			pfDate = sysdate
+		WHERE MEMID = #{memid}
+	</update>
+	
+<!-- 	<insert id="dofollow" parameterType="mvc.dto.Follow"> -->
+<!-- 		INSERT INTO TB_FOLLOW(MEMID, FLWID) -->
+<!-- 		VALUES(#{memid}, #{flwid}) -->
+<!-- 		WHERE MEMID=#{memid} -->
+<!-- 	</insert> -->
+	
+	<select id="selectflwing" parameterType="String" resultType="int">
+		SELECT COUNT (*) FROM TB_FOLLOW 
+		WHERE MEMID = #{memid}
+	</select>
+	
+	<select id="selectflwer" parameterType="String" resultType="int">
+		SELECT COUNT (*) FROM TB_FOLLOW 
+		WHERE FLWID = #{memid}
+	</select>
+	
+	<select id="selectmybod" parameterType="String" resultType="int">
+		SELECT COUNT (*) FROM TB_BOARD
+		WHERE BODNAME = #{memnick}
+	</select>
+	
+<!-- 	<select id="selectPinnedpic" parameterType="String" resultType="mvc.dto.Board"> -->
+<!-- 		SELECT b.*, -->
+<!-- 		(	SELECT * -->
+<!-- 				FROM tb_keep k -->
+<!-- 				WHERE k.kepnick = b.bodname -->
+<!-- 		) -->
+<!-- 		FROM TB_BOARD b -->
+<!-- 		WHERE -->
+<!-- 			bodname=#{memnick} -->
+<!-- 		ORDER BY BODDATE DESC -->
+<!-- 	</select> -->
+	
 
 </mapper>

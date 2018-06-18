@@ -1,5 +1,6 @@
 package mvc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import mvc.dao.MypageDao;
 import mvc.dto.Board;
 import mvc.dto.Files;
 import mvc.dto.Member;
+import mvc.dto.Profile;
 
 @Service
 public class MypageService {
@@ -51,5 +53,45 @@ public class MypageService {
 	}
 
 
+	// 프로필 보기
+		public ArrayList<Profile> getprofile(String memid) {
+			return mypageDao.getProfile(memid);
+		}
+		
+		// 프로필 등록
+		public void insertimg(Profile pf) {
+			mypageDao.insertimg(pf);
+		}
+
+		// 프로필수정
+		public void updatepf(Profile pf) {
+			mypageDao.updatepf(pf);
+		}
+		
+		// 팔로우하기
+//		public void dofollow(String memid) {
+//			mypageDao.dofollow(memid);
+//		}
+		
+		// 내 팔로잉 수 불러오기
+		public int selectflwing(String memid) {
+			return mypageDao.selectflwing(memid);
+		}
+		
+		// 내 팔로워 수 불러오기
+		public int selectflwer(String memid) {
+			return mypageDao.selectflwer(memid);
+		}
+		
+		// 내 보관글 수 불러오기
+		public int selectmybod(String memid) {
+			return mypageDao.selectmybod(memid);
+		}
+		
+		
+		// 내가 보관한 글 목록
+//		public List selectPinnedpic(String memnick) {
+//			return mypageDao.selectPinnedpic(memnick);
+//		}
 	
 }
