@@ -145,5 +145,10 @@
 	<select id="getProfileList" parameterType="mvc.dto.Member" resultType="mvc.dto.Profile">
 	SELECT * FROM tb_profile WHERE memid=#{memid}	
 	</select>
-	
+	<select id="getAllLatLng" resultType="mvc.dto.LatLng">
+	SELECT DISTINCT BODNO FROM TB_POSITION
+	</select>
+	<select id="getPositionListByBodno" parameterType="mvc.dto.LatLng" resultType="mvc.dto.LatLng">
+	SELECT POSITIONX, POSITIONY FROM TB_POSITION WHERE BODNO=#{bodno}
+	</select>
 </mapper>

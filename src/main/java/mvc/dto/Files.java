@@ -13,8 +13,10 @@ public class Files {
 	private String filsavefile;
 	private long filsize;
 	private Date fildate;
-	private int filidx;
 	private String filtype;
+	
+	private int filidx;
+	
 	public int getFilidx() {
 		return filidx;
 	}

@@ -26,8 +26,8 @@
     <img class="more" width="30px;" src="/resources/images/icon/more.png">
     </button>
     <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="traVlog/update.do">수정</a></li>
-      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">삭제</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="update.do">수정</a></li>
+      <li role="presentation"><a role="menuitem" tabindex="-1" href="contentdelete.do?bodno=${selectContent.bodno }&memnick=${selectContent.bodname }">삭제</a></li>
       <li role="presentation" class="divider"></li>
       <li role="presentation"><a role="menuitem" tabindex="-1" href="#">로그아웃</a></li>    
     </ul>
@@ -119,5 +119,26 @@ var slideIndex = 1;
 	  x[slideIndex-1].style.display = "block";  
 	}
 
+	function deleteBoard(bodno) {
+		
+		var bno = bodno;
+		
+	    var msg = "삭제된 게시물은 복구할 수 없습니다.\n삭제하시겠습니까?";
+	    
+	    if (confirm(msg) != 0) {
+	         // Yes click
+	        if (confirm(warning) != 0) {
+		        alert(bno+"번 게시글을 영구삭제 합니다.");
+				location.href='/Manage_Page/deleteBoard.do?bodno='+bno;
+	        } else {
+		    	alert("삭제를 취소합니다.");
+	        }
+	    } else {
+	    	alert("삭제를 취소합니다.");
+	        // No click
+	        return;
+		}
+	} // deleteBoard()
+	
 </script>
 

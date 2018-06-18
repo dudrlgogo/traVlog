@@ -40,12 +40,10 @@
 					</span>
 				</c:if>
 			</div>
-
-
-
+			
 			<!--             06.14 정민 이미지, 동영상 처리 -->
 
-			<div class="boardImg">
+			<div class="pic">
 				<c:forEach items="${filesList }" var="files" varStatus="listNumber">
 					<c:if test="${files.filsavefile != null }">
 						<c:if test="${board.bodno == files.bodno }">
@@ -61,8 +59,8 @@
 						</c:if>
 					</c:if>
 				</c:forEach>
+				
 			</div>
-
 
 			<div class="icon">
 				<!-- 좋아요 기능  -->
@@ -77,18 +75,7 @@
 							src="/resources/images/icon/like.png">
 					</c:if>
 				</button>
-
-				<div class="Bcontent">
-					<label>좋아요 <strong id="recommend_${board.bodno }">${board.recommendCnt }</strong>
-						개
-					</label>
-					<p class="Rcontent">${board.bodcontent }</p>
-					<c:forTokens items="${board.bodhashtag }" delims="#" var="item">
-						<a href="javascript:void(0);"
-							onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
-					</c:forTokens>
-				</div>
-
+				
 				<button>
 					<img class="comm" width="30px;"
 						src="/resources/images/icon/comment.png">
@@ -117,6 +104,15 @@
 					<a href="javascript:void(0);"
 						onclick="javascript:searchTag('${item}');" class="tag">#${item}</a>
 				</c:forTokens>
+				<!-- 지도 띄우기 시도..06.17 -->
+				<c:forEach items="${mapList }" var="map">
+					<c:if test="${map.bodno == board.bodno}">
+						<a id="aMap_${map.bodno }" href="javascript:void(0);"
+							onclick="javascript:showMap('${map.bodno}')">지도보기</a>
+					</c:if>
+				</c:forEach>
+				<div id="boardMap_${board.bodno}" class="boardMap"></div>
+				<!-- 지도 띄우기 시도..끝 -->
 			</div>
 			<!-- 댓글 작성 시작 2018.06.09 -->
 

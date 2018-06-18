@@ -27,5 +27,9 @@ public interface MypageDao {
 	// 해당 계정 상세 사진 불러오기
 	
 	public List selectContentPic(int bodno);
+	
+	// 해당 계정 삭제
+	
+	public void contentDelete(int bodno);
 
 }

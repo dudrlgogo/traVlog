@@ -160,8 +160,13 @@ public class BoardController {
 			model.addAttribute("search",member.getSearch());
 
 		}
-
-
+		
+		/* 지도 정보 가져오기 시작 6.17 */
+		//getAllLatLng는 tb_latlng의 bodno만 가져옴..
+		List<LatLng> mapList = boardService.getAllLatLng();
+		
+		model.addAttribute("mapList",mapList);
+		
 		//일단 3개만 출력하기 위해 count도 보냄
 		int count = 2;
 		//가져오기 끝
@@ -213,6 +218,12 @@ public class BoardController {
 			//06.13 게시글 프로필 사진 추가
 			List<Profile> profileList = boardService.getProfileList(boardMember);
 			model.addAttribute("profileList",profileList);
+			
+			/* 지도 정보 가져오기 시작 6.17 */
+			//getAllLatLng는 tb_latlng의 bodno만 가져옴..
+			List<LatLng> mapList = boardService.getAllLatLng();
+			
+			model.addAttribute("mapList",mapList);
 		}
 		
 		model.addAttribute("count",count);
@@ -666,6 +677,21 @@ public class BoardController {
 		hashmap.put("KEY", "YES");
 
 		return hashmap;
+	}
+
+	//메인 게시글에 지도정보 가져오는  ajax
+	@RequestMapping(value = "/traVlog/showMap.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<Object,List<LatLng>> showMap(LatLng latlng) {
+		logger.info("메인페이지 지도요청 AJAX 실행");
+		logger.info("가져온 bodno : "+latlng.getBodno());
+		
+		List<LatLng> positionXY = boardService.getPositionListByBodno(latlng);
+		
+		Map<Object, List<LatLng>> map = new HashMap<>();
+		map.put("posiXY", positionXY);
+		
+		return map;
 	}
 }
 

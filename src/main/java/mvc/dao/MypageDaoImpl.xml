@@ -25,5 +25,9 @@
 	<select id="selectContentPic" parameterType="mvc.dto.Board" resultType="mvc.dto.Files" >
 		SELECT * FROM TB_BOARD bod, TB_FILES fil WHERE bod.bodno = #{bodno} and fil.bodno = #{bodno}
 	</select>
+	
+	<delete id="contentDelete" >
+		DELETE FROM tb_board WHERE bodno = #{bodno }
+	</delete>
 
 </mapper>
