@@ -23,7 +23,13 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#btnLogout").click(function(){
+		$(location).attr("href","/logout.do");
+	});
+	
+</script>
 
 </head>
 
@@ -38,33 +44,40 @@
 			<div class="content-wrap">
 				<div class="top">
 					<div class="userProfile">
-						<img class="userimg" src="/resources/images/icon/user.png">
+					<c:forEach items="${selectprofile}" var="f">
+						<img class="userimg" src="/resources/profileImage/${f.pfSavefile }">
 						<button class="profilebtn"
 							onclick="location.href='settingprofile.do'">프로필 편집</button>
-						<div class="usernick">${selectMember.memnick }</div>
+						<div class="usernick">${f.memnick }</div>
 						<div class="setting">
 							<a href="message.do"><img class="messageimg"
 								src="/resources/images/icon/message.png"></a><br>
 						</div>
-						<div class="userinfo">아몰랑 여기는 소개적는 칸. 글자수 제한을 두는것이 좋겠어요 한
-							80글자 정도로??? 내려온다. 대한 물방아 수 사람은 귀는 튼튼하며, 어디 살 아름다우냐? 피어나기 되려니와, 뼈
-							오아이스도 스며들어 풍부</div>
+						<div class="userinfo">${f.pfText }</div>
+						</c:forEach>
+						
+						<div class="setting">
+							<a href="message.do"onclick="window.open(this.href,'메시지 보내기','width=450,height=450,scrollbars=yes');return false;">
+							<img class="messageimg" src="/resources/images/icon/message.png"></a><br>
+							<a href="/traVlog/logout.do">로그아웃</a>
+						</div>
+						
 					</div>
 
 					<div class="userfollower">
 
 						<div class="following">
-							<strong>${selectMember.memfollwing }</strong><br /> <span>팔로우</span>
+							<strong>${followingCount }</strong><br /> <span>팔로우</span>
 						</div>
 						<div class="follower">
-							<strong>${selectMember.memfollower }</strong><br /> <span>팔로워</span>
+							<strong>${followerCount }</strong><br /> <span>팔로워</span>
 						</div>
 						<div class="boardImg">
-							<strong>1</strong><br /> <span>게시글</span>
+							<strong>${boardCount }</strong><br /> <span>게시글</span>
 						</div>
 
 						<div class="setting">
-							<a href="settingprofile.do"><img class="settingimg"
+							<a href="/traVlog/setUserinfo.do"><img class="settingimg"
 								src="/resources/images/icon/setting.png"></a><br>
 						</div>
 	

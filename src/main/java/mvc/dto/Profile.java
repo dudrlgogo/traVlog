@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Profile {
 
-	private String memid; //회원아이디 
+	private String memnick; //회원 닉네임 
 	private String pfText; //프로필 메시지 
 	private String pfImg; //프로필 이미지 
 	private String pfOriginfile; //원본파일 
@@ -12,11 +12,11 @@ public class Profile {
 	private int pf_Size; //파일크기 
 	private Date  pfDate; //저장날짜
 	
-	public String getMemid() {
-		return memid;
+	public String getMemnick() {
+		return memnick;
 	}
-	public void setMemid(String memid) {
-		this.memid = memid;
+	public void setmemnick(String memnick) {
+		this.memnick = memnick;
 	}
 	public String getPfText() {
 		return pfText;
@@ -57,7 +57,7 @@ public class Profile {
 	
 	@Override
 	public String toString() {
-		return "[profile] memid = "+memid+"pfText = "+pfText+"pfImg = "+pfImg+"pfOriginfile = "+pfOriginfile+"pfSavefile = "+pfSavefile
+		return "[profile] memid = "+memnick+"pfText = "+pfText+"pfImg = "+pfImg+"pfOriginfile = "+pfOriginfile+"pfSavefile = "+pfSavefile
 				+ "pf_Size = "+pf_Size+"pfDate = "+pfDate;
 	}
 	

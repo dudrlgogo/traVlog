@@ -9,7 +9,7 @@
 	</select>
 	<insert id="insertBoard" parameterType="mvc.dto.Board">
 		insert into TB_BOARD(BODNO,BODTITLE,BODCONTENT,BODHASHTAG,BODDATE,BODRECOMMEND,BODNAME)
-		values(UP_BOARD_SEQ.nextval,#{bodtitle},#{bodcontent},#{bodhashtag},sysdate,0,#{bodname})
+		values(UP_bodno.nextval,#{bodtitle},#{bodcontent},#{bodhashtag},sysdate,0,#{bodname})
 	</insert>
 	<insert id="insertFile" parameterType="mvc.dto.Files">
 		insert into TB_FILES(BODNO, FILIDX,FILORIGINFILE,FILSAVEFILE,FILSIZE,FILDATE, FILTYPE)
@@ -143,7 +143,7 @@
 	</select>
 	
 	<select id="getProfileList" parameterType="mvc.dto.Member" resultType="mvc.dto.Profile">
-	SELECT * FROM tb_profile WHERE memid=#{memid}	
+	SELECT * FROM tb_profile WHERE memnick=#{memnick}	
 	</select>
 	<select id="getAllLatLng" resultType="mvc.dto.LatLng">
 	SELECT DISTINCT BODNO FROM TB_POSITION

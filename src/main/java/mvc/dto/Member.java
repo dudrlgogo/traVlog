@@ -7,6 +7,15 @@ public class Member {
 	private String memid;
 	//mempw 를 mempassword로 수정
 	private String mempassword;
+	private String memname;
+
+	public String getMemname() {
+		return memname;
+	}
+
+	public void setMemname(String memname) {
+		this.memname = memname;
+	}
 
 	private int memage;
 	private String memnick;

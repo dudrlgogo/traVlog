@@ -34,13 +34,29 @@
 		SELECT memid, memnick FROM tb_member where memid =#{memid}
 	</select>
 	
-	<select id="getProfile" parameterType="String" resultType="mvc.dto.Profile">
-		SELECT * FROM tb_profile WHERE memid=#{memid}
-	</select>
+   <select id="getProfile" parameterType="String" resultType="String">
+      SELECT pfsavefile
+      FROM (
+         select pfsavefile from tb_profile
+         where memnick=#{memnick}
+         order by PFDATE desc) p
+      WHERE rownum =1
+   </select>
+   
 	<insert id="insertFollow" parameterType="mvc.dto.Follow">
 		INSERT INTO TB_FOLLOW(MEMID,FLWID) VALUES(#{memid},#{flwid})
 	</insert>
 	<select id="getMemberByNick" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
 		select * from tb_member where memnick=#{memnick}
+	</select>
+	
+	<select id="getflw" parameterType="String" resultType="mvc.dto.Follow">
+		SELECT flwid FROM TB_FOLLOW WHERE memid=#{memid}
+	</select>
+	
+	
+	<select id="selectMemberBymemid" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		SELECT * FROM TB_MEMBER
+		WHERE MEMID=#{memid}
 	</select>
 </mapper>

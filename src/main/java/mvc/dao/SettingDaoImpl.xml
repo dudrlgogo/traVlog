@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mvc.dao.SettingDao">    
+	<select id="setUserinfo" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		SELECT * FROM TB_MEMBER(MEMID, MEMPASSWORD, MEMAGE, MEMNAME, MEMNICK, MEMEMAIL, MEMPHONE, MEMSEX) 
+		VALUES(#{memid},#{mempassword},#{memage},#{memname},#{memnick},#{mememail},#{memphone},#{memsex})
+		WHERE MEMID=#{memid}
+	</select>
+	
+	<select id="getUserinfo" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		SELECT MEMID, MEMPASSWORD, MEMAGE, MEMNAME, MEMNICK, MEMEMAIL, MEMPHONE, MEMSEX FROM TB_MEMBER 
+		WHERE MEMID=#{memid}
+	</select>
+	
+	<update id="updateUserinfo" parameterType="mvc.dto.Member">
+		UPDATE TB_MEMBER 
+		SET MEMID=#{memid},
+			MEMNAME=#{memname},
+			MEMPASSWORD=#{mempassword},
+			MEMNICK=#{memnick},
+			MEMAGE=#{memage},
+			MEMEMAIL=#{mememail},
+			MEMPHONE=#{memphone},
+			MEMSEX=#{memsex}
+		WHERE MEMID=#{memid}
+	</update>
+	
+<!-- 	 <select id="checkPw" resultType="mvc.dto.Member"> -->
+<!--         SELECT  -->
+<!--             COUNT(*)  -->
+<!--         FROM TB_MEMBER -->
+<!--         WHERE memid = #{memid} AND mempassword = #{mempassword} -->
+<!--     </select> -->
+	
+
+	<select id="getflw" parameterType="String" resultType="mvc.dto.Follow">
+		SELECT * FROM TB_FOLLOW 
+		WHERE memid=#{id}
+	</select>
+	
+	<select id="getflwing" parameterType="String" resultType="mvc.dto.Follow">
+		SELECT * FROM TB_FOLLOW 
+		WHERE flwid=#{id}
+	</select>
+</mapper>

@@ -230,11 +230,6 @@ public class BoardController {
 
 	}
 	
-	@RequestMapping(value = "/traVlog/settingprofile.do", method = RequestMethod.GET)
-	public void settingProfile() {
-		logger.info("세팅페이지 프로필 GET요청");
-	}
-	
 	@RequestMapping(value = "/traVlog/settingpass.do", method = RequestMethod.GET)
 	public void settingPass() {
 		logger.info("세팅페이지 비밀번호 변경 GET요청");
