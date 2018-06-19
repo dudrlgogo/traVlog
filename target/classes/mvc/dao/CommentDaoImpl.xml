@@ -7,7 +7,7 @@
 	<!-- 댓글파트 -->
 	<insert id="insertComment" parameterType="mvc.dto.Comment">
 		INSERT INTO TB_COMMENT(COMNO,BODNO,COMCONTENT,COMWRITTENDATE,COMWRITER)
-		VALUES(UP_COMNO_SEQ.NEXTVAL,#{bodno}, #{comcontent},sysdate,#{comwriter} )
+		VALUES(UP_comNo.NEXTVAL,#{bodno}, #{comcontent},sysdate,#{comwriter} )
 	</insert>
 	<select id="getCommentListByBodno" parameterType="mvc.dto.Board" resultType="mvc.dto.Comment">
 		SELECT * FROM TB_COMMENT WHERE BODNO = #{bodno} ORDER BY COMWRITTENDATE DESC

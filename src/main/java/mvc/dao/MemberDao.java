@@ -40,6 +40,8 @@ public interface MemberDao {
 
 	public List<Follow> getflw(Follow flw);
 	
+	public Member getMemberById(Member member);
+	
 	public Member selectMemberBymemid(Member member);
 
 	public void followAdmin(Member member);

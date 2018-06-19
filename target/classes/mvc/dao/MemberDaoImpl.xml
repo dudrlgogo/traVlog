@@ -63,9 +63,10 @@
 	<insert id="insertFollow" parameterType="mvc.dto.Follow">
 		INSERT INTO TB_FOLLOW(MEMID,FLWID) VALUES(#{memid},#{flwid})
 	</insert>
-	
-	<select id="getMemberByNick" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
-		select * from tb_member where memnick=#{memnick}
+
+	<select id="getMemberById" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
+		select * from tb_member where memid=#{memid}
+
 	</select>
 	
 	<select id="getflw" parameterType="String" resultType="mvc.dto.Follow">

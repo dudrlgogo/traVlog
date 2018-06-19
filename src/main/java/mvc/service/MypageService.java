@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import mvc.dao.MypageDao;
 import mvc.dto.Board;
-import mvc.dto.Files;
+import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Profile;
 
@@ -51,6 +51,14 @@ public class MypageService {
 		
 		return mypageDao.selectContentPic(bodno);
 	}
+	
+	// 계정 글 삭제하기
+	
+	public void contentdelete(int bodno) {
+		
+		mypageDao.contentDelete(bodno);
+		
+	}
 
 	// 프로필 보기
 		public ArrayList<Profile> getProfile(String memnick) {
@@ -68,9 +76,15 @@ public class MypageService {
 		}
 		
 		// 팔로우하기
-//		public void dofollow(String memid) {
-//			mypageDao.dofollow(memid);
-//		}
+		public void dofollow(Follow follow) {
+			mypageDao.dofollow(follow);
+		}
+		
+		// 팔로우 여부 체크
+		public int checkfollow(Follow follow) {
+			
+			return mypageDao.checkfollow(follow);
+		}
 		
 		// 내 팔로잉 수 불러오기
 		public int selectflwing(String memid) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.dto.Board;
-import mvc.dto.Files;
+import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Profile;
 
@@ -34,7 +34,7 @@ public interface MypageDao {
 	
 	public void contentDelete(int bodno);
 
-public ArrayList<Profile> getProfile(String memid); // 프로필 보기
+    public ArrayList<Profile> getProfile(String memid); // 프로필 보기
 		
 	
 	public void insertimg(Profile pf); // 프로필 삽입 
@@ -42,8 +42,11 @@ public ArrayList<Profile> getProfile(String memid); // 프로필 보기
 	public void updatepf(Profile pf); // 프로필수정
 	
 	
-	// 팔로우
-//	public void dofollow(String memid);
+	// 팔로우 하기
+	public void dofollow(Follow follow);
+	
+	// 팔로우 여부 판단
+	public int checkfollow(Follow follow);
 	
 	// 내 팔로잉 수
 	public int selectflwing(String memid);

@@ -435,7 +435,7 @@ $(document).ready(function () {
 						<c:when  test="${contains eq false }">
 							<c:forEach items="${profileList}" var="profileList">
 								<c:if test="${profileList.memnick == board.bodname }">
-									<img class="userimg" src="/upload/${profileList.pfSavefile }">
+									<img class="userimg" src="/resources/profileImage/${profileList.pfSavefile }">
 								</c:if>
 							</c:forEach>
 						</c:when>
@@ -532,7 +532,7 @@ $(document).ready(function () {
 							<a id="aMap_${map.bodno }" href="javascript:void(0);" onclick="javascript:showMap('${map.bodno}')">지도보기</a>
 						</c:if>
 					</c:forEach>
-					<div id="boardMap_${board.bodno}" class="boardMap">
+					<div id="boardMap_${board.bodno}" class="boardMap" style="display:none;">
 					</div>
 					<!-- 지도 띄우기 시도..끝 -->
 <script type="text/javascript">
@@ -646,7 +646,7 @@ function showMap(bodno){
 			<c:forEach items="${profile}" var="profile">
 				<c:if test="${profile != null }">
 					<img class="userimg"
-						src="/resources/upload/${profile}">
+						src="/resources/profileImage/${profile}">
 				</c:if>
 			</c:forEach>
 	
@@ -711,7 +711,6 @@ function showMap(bodno){
               </table>
          </div>
          
-
 		<div class="goTop" onclick="window.scrollTo(0,0);">TOP</div>
 				</div>	<!-- Left End -->
 </div> <!-- menuBar End -->

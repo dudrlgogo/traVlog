@@ -18,7 +18,7 @@
                <c:if test="${profileList.pfSavefile != null }">
                   <c:if test="${profileList.memnick eq board.bodname}">
                   <img class="userimg"
-                     src="/resources/upload/${profileList.pfSavefile }">
+                     src="/resources/profileImage/${profileList.pfSavefile }">
                   </c:if>
                </c:if>
 	               <c:if test="${profileList.pfSavefile == null }">
@@ -113,7 +113,7 @@
 							onclick="javascript:showMap('${map.bodno}')">지도보기</a>
 					</c:if>
 				</c:forEach>
-				<div id="boardMap_${board.bodno}" class="boardMap"></div>
+				<div id="boardMap_${board.bodno}" class="boardMap" style="display:none;"></div>
 				<!-- 지도 띄우기 시도..끝 -->
 			</div>
 			<!-- 댓글 작성 시작 2018.06.09 -->

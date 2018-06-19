@@ -504,18 +504,23 @@ public class BoardController {
 
 			//현재 로그인중인 사람의 id를 가지고 오기..
 			String memid = (String) session.getAttribute("memid");
-			logger.info(memid);
+			logger.info(memid+","+(String)session.getAttribute("memnick"));
 
 			//추천친구 가져오기
-			ArrayList<FollowingRec> recList = mainService.recommend(memid);
-			int cntRec = mainService.countRecMember(memid);
+			//새로 추가됨 6.18
+			Member recMember = new Member();
+			recMember.setMemid(memid);
+			recMember.setMemnick((String)session.getAttribute("memnick"));
+			
+			ArrayList<FollowingRec> recList = mainService.recommend(recMember);
+			int cntRec = mainService.countRecMember(recMember);
 			
 			//추천친구가 없다면 인기 사용자 가져오기!
 			ArrayList<Member> memList = mainService.topMember();
 			
 			
 			//나의 팔로워 가져오기
-			ArrayList<FollowingRec> folList = mainService.follower(memid);
+			ArrayList<FollowingRec> folList = mainService.follower(recMember);
 			int cntFol = mainService.countFolMember(memid);
 			
 			//팔로워가 없다면 관리자 계정 추천하기
@@ -662,10 +667,11 @@ public class BoardController {
 			logger.info("받아온 member.search정보"+member.getSearch());
 			//현재 로그인중인 사람의 id를 가지고 오기..
 			String memid = (String) session.getAttribute("memid");
+			
 			member.setMemid(memid);
-			logger.info("session memnick : "+memid);
+			logger.info("session memid : "+memid);
 			List<Member> searchMemberList = mainService.getMemberListBySearch(member);
-			List<FollowingRec> recList = mainService.recommend(memid);
+			List<FollowingRec> recList = mainService.recommend(member);
 			
 			
 			model.addAttribute("searchMemberList",searchMemberList);
@@ -675,14 +681,14 @@ public class BoardController {
 		//친구찾기에서 팔로우기능 하기..
 	@ResponseBody
 	@RequestMapping(value = "/traVlog/doFollow.do", method = RequestMethod.POST)
-	public HashMap<String, Object> checkId(HttpSession session,String memnick) {
+	public HashMap<String, Object> checkId(HttpSession session,String memid) {
 		
-		logger.info(memnick);
+		logger.info(memid);
 		Follow insertFollow = new Follow();
 		Member member = new Member();
-		member.setMemnick(memnick);
-		member = memberService.getMemberByNick(member);
-		logger.info(member.toString());
+		member.setMemid(memid);
+		member = memberService.getMemberById(member);
+//		logger.info(member.toString());
 		insertFollow.setFlwid(member.getMemid());
 		insertFollow.setMemid((String)session.getAttribute("memid"));
 		memberService.insertFollow(insertFollow);

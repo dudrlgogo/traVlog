@@ -13,11 +13,11 @@ public interface MainDao {
 
 	public ArrayList<Member> topMember();
 
-	public ArrayList<FollowingRec> recMember(String memid);
+	public ArrayList<FollowingRec> recMember(Member member);
 
-	public int countRecMember(String memid);
+	public int countRecMember(Member member);
 
-	public ArrayList<FollowingRec> follower(String memid);
+	public ArrayList<FollowingRec> follower(Member member);
 	
 	public int countFolMember(String memid);
 
@@ -25,6 +25,4 @@ public interface MainDao {
 
 	public List<Member> getMemberListBySearch(Member member);
 
-	public ArrayList<FollowingRec> recMember(Member recMember);
-	
 }

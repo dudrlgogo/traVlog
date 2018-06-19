@@ -27,16 +27,16 @@ public class MainService {
 	}
 
 
-	public ArrayList<FollowingRec> recommend(String memid) {
-		return mainDao.recMember(memid); 
+	public ArrayList<FollowingRec> recommend(Member member) {
+		return mainDao.recMember(member); 
 	}
 	
-	public int countRecMember(String memid) {
-		return mainDao.countRecMember(memid);
+	public int countRecMember(Member member) {
+		return mainDao.countRecMember(member);
 	}
 
-	public ArrayList<FollowingRec> follower(String memid) {
-		return mainDao.follower(memid);
+	public ArrayList<FollowingRec> follower(Member member) {
+		return mainDao.follower(member);
 	}
 	
 	public int countFolMember(String memid) {
@@ -51,11 +51,4 @@ public class MainService {
 	public List<Member> getMemberListBySearch(Member member) {
 		return mainDao.getMemberListBySearch(member);
 	}
-
-
-	public ArrayList<FollowingRec> recommend(Member recMember) {
-		return mainDao.recMember(recMember);
-	}
-
-
 }

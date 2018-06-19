@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import mvc.dto.Advertising;
 import mvc.dto.Board;
+import mvc.dto.Follow;
 import mvc.dto.Member;
 import mvc.dto.Message;
 import mvc.dto.Payment;
@@ -89,7 +90,12 @@ public class MypageController {
 		
 		Board selectContent = mypageService.selectContent (bodno);
 		List selectContentPic = mypageService.selectContentPic(bodno);
+		List selectprofile = mypageService.getProfile(selectContent.getBodname());
 		
+		logger.info("이름:"+selectContent.getBodname());
+		logger.info("이름:"+selectprofile.get(0));
+		
+		model.addAttribute("selectprofile", selectprofile);
 		model.addAttribute("selectContent", selectContent);
 		model.addAttribute("selectContentPic", selectContentPic);
 		
@@ -104,6 +110,7 @@ public class MypageController {
 		
 		//로그인한 사용자 아이디 가져오기
 		String memid = (String) session.getAttribute("memid");
+		mypageService.contentdelete(bodno);
 		logger.info(memid);
 		logger.info(memnick);
 	
@@ -116,6 +123,37 @@ public class MypageController {
 		
 		return ret;
 	}
+	
+
+	   @RequestMapping(value="/traVlog/follow.do", method=RequestMethod.GET)
+	   public String follow(HttpSession session, String flwid, String flwnick) {
+		   
+		  Follow follow = new Follow();
+	      String memid = (String) session.getAttribute("memid");
+	      
+	      follow.setMemid(memid);
+	      follow.setFlwid(flwid);
+	      
+	      if(mypageService.checkfollow(follow) != 1) {
+	    	  
+	    	    mypageService.dofollow(follow);
+	    	    
+	      } else {
+	    	  
+	    	  
+	      }
+	  
+	      String ret = null;
+			
+			try {
+				ret = "redirect:mypage.do?memnick="+URLEncoder.encode(flwnick, "utf-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			
+			return ret;
+		
+	   }
 	
 	// 프로필 작성폼
 	   @RequestMapping(value="/traVlog/settingprofile.do", method=RequestMethod.GET)
@@ -179,27 +217,14 @@ public class MypageController {
 		   mypageService.updatepf(pf);
 	      return "redirect:/traVlog/settingprofile.do";
 	   }
-	   
-	   // 팔로우
-	//   @RequestMapping(value="/traVlog/follow.do", method=RequestMethod.GET)
-	//   public void dofollow() {}
-	//   
-	//   @RequestMapping(value="/traVlog/follow.do", method=RequestMethod.POST)
-	//   public String dofollowproc(HttpSession session, String memid) {
-//	      memid = (String) session.getAttribute("memid");
-//	      mypageservice.dofollow(memid);
-//	      return "traVlog/mypage";
-	//   }
-	   
+
 	   
 	   // 로그아웃
 	   @RequestMapping(value="/traVlog/logout.do")
 	   public void logout(HttpSession session) {
 	      session.invalidate();
 	   }
-	   
-	   
-	   
+	  
 		 //받은 메세지 리스트
 		@RequestMapping(value = "/traVlog/getmessage.do", method = RequestMethod.GET)
 		public String getmessage(Model model, HttpSession session) {

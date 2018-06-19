@@ -5,18 +5,18 @@
 <link href="/resources/css/follow.css" rel="stylesheet">
 
 <script>
-function doFollow(memnick){
-	console.log("memnick는"+memnick);
+function doFollow(memid){
+	console.log("memid는"+memid);
 	$.ajax({
 		type:'post',
 		url:'/traVlog/doFollow.do',
-		data:{'memnick':memnick},
+		data:{'memid':memid},
 		dataType:'json',
 		success:function(data){
 			console.log('팔로우성공?'+data.KEY);
-			$("#followBtn_"+memnick).prop("disabled", true);
-			$("#followBtn_"+memnick).text("팔로우에 성공했습니다.");
-			$("#followBtn_"+memnick).css("width", "300px");
+			$("#followBtn_"+memid).prop("disabled", true);
+			$("#followBtn_"+memid).text("팔로우에 성공했습니다.");
+			$("#followBtn_"+memid).css("width", "300px");
 		},error:function(e){
 			console.log('팔로우실패');		
 		}
@@ -32,10 +32,10 @@ function doFollow(memnick){
              <tbody>
                   <tr>
                       <td class="Rimg" rowspan="2" ><img alt="" src="/resources/images/icon/user.png"></td>
-                      <td><a href="#" class="recA">${member.memnick}</a></td>
+                      <td><a href="#" class="recA">${member.memid}</a></td>
                   </tr>
                   <tr>
-					<td><button class="followBtn" id="followBtn_${member.memnick }" onclick="doFollow('${member.memnick}')">팔로우</button></td>
+					<td><button class="followBtn" id="followBtn_${member.memid }" onclick="doFollow('${member.memid}')">팔로우</button></td>
                   </tr>
              </tbody>
           </c:forEach>

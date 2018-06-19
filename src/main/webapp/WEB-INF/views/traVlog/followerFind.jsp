@@ -16,6 +16,24 @@
 
 </head>
 <script type="text/javascript">
+function doFollow(memid){
+	console.log("memid는"+memid);
+	$.ajax({
+		type:'post',
+		url:'/traVlog/doFollow.do',
+		data:{'memid':memid},
+		dataType:'json',
+		success:function(data){
+			console.log('팔로우성공?'+data.KEY);
+			$("#followBtn_"+memid).prop("disabled", true);
+			$("#followBtn_"+memid).text("팔로우성공");
+// 			$("#followBtn_"+memnick).css("width", "200px");
+		},error:function(e){
+			console.log('팔로우실패');		
+		}
+	});
+}
+
 $(document).ready(function(){
 	$("#searchBtn").click(function(){
 		var search = $("#search").val();
@@ -63,6 +81,7 @@ $(document).ready(function(){
 	                        <td class="memfollower">팔로워수가 무려 <strong>${mem.memfollower}명!</strong> 
 	                        	<br>지금 인기 사용자를 팔로잉해보세요! </td>
 	                    </tr>
+	                    <tr><td><button class="followBtn" id="followBtn_${mem.memid}" onclick="doFollow('${mem.memid}')">팔로우</button></td></tr>
 		            </c:forEach>
 	                </tbody>
 		        	</table>
@@ -81,6 +100,7 @@ $(document).ready(function(){
 	                    <tr>
 	                        <td class="Rnick">내가 팔로잉하고 있는 사람 <strong>${rec.worth}명</strong>이 팔로잉하고 있어요!</td>
 	                    </tr>
+	                        <tr><td><button class="followBtn" id="followBtn_${rec.recommend}" onclick="doFollow('${rec.recommend}')">팔로우</button></td></tr>
 		            </c:forEach>
 	                </tbody>
 		        	</table>
@@ -108,6 +128,7 @@ $(document).ready(function(){
 	                        <td class="memfollower">팔로워수가 무려 <strong>${ad.memfollower}명!</strong> <br>
 	                        		지금 traVlog 공식계정을 팔로잉해보세요! </td>
 	                    </tr>
+	                        <tr><td><button class="followBtn" id="followBtn_${ad.memid}" onclick="doFollow('${ad.memid}')">팔로우</button></td></tr>
 		            </c:forEach>
 	                </tbody>
 		        	</table>
@@ -126,6 +147,7 @@ $(document).ready(function(){
 	                    <tr>
 	                    <td class="Rnick">나를 팔로잉하는 사람이예요!</td>
 	                    </tr>
+	                    <tr><td><button class="followBtn" id="followBtn_${fol.memid}" onclick="doFollow('${fol.memid}')">팔로우</button></td></tr>
 		            </c:forEach>
 	                </tbody>
 		        	</table>

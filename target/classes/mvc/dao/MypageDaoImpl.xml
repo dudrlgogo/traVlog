@@ -27,9 +27,15 @@
 	</select>
 	
 
-	<delete id="contentDelete" >
+	<delete id="contentDelete" parameterType="mvc.dto.Board" >
 		DELETE FROM tb_board WHERE bodno = #{bodno }
 	</delete>
+	
+	<select id="checkfollow" parameterType="mvc.dto.Follow" resultType="int">
+	
+	SELECT COUNT(*) FROM TB_FOLLOW WHERE (memid= #{memid} and flwid= #{flwid}) OR (memid= #{flwid} and flwid= #{memid});
+
+	</select>
 
 	<select id="getProfile" parameterType="String" resultType="mvc.dto.Profile">
 		SELECT pfSavefile, pfText, memnick FROM (select pfSavefile, pfText, memnick from 
@@ -57,11 +63,11 @@
 		WHERE MEMID = #{memid}
 	</update>
 	
-<!-- 	<insert id="dofollow" parameterType="mvc.dto.Follow"> -->
-<!-- 		INSERT INTO TB_FOLLOW(MEMID, FLWID) -->
-<!-- 		VALUES(#{memid}, #{flwid}) -->
-<!-- 		WHERE MEMID=#{memid} -->
-<!-- 	</insert> -->
+	<insert id="dofollow" parameterType="mvc.dto.Follow">
+		INSERT INTO TB_FOLLOW(MEMID, FLWID)
+		VALUES(#{memid}, #{flwid})
+
+	</insert>
 	
 	<select id="selectflwing" parameterType="String" resultType="int">
 		SELECT COUNT (*) FROM TB_FOLLOW 
@@ -78,16 +84,5 @@
 		WHERE BODNAME = #{memnick}
 	</select>
 	
-<!-- 	<select id="selectPinnedpic" parameterType="String" resultType="mvc.dto.Board"> -->
-<!-- 		SELECT b.*, -->
-<!-- 		(	SELECT * -->
-<!-- 				FROM tb_keep k -->
-<!-- 				WHERE k.kepnick = b.bodname -->
-<!-- 		) -->
-<!-- 		FROM TB_BOARD b -->
-<!-- 		WHERE -->
-<!-- 			bodname=#{memnick} -->
-<!-- 		ORDER BY BODDATE DESC -->
-<!-- 	</select> -->
 
 </mapper>

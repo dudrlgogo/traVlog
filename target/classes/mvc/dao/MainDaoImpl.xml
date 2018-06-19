@@ -23,7 +23,7 @@
 		<![CDATA[
 			SELECT * FROM (
 			    SELECT rownum rnum, T.* FROM (
-			        SELECT memnick, memfollower
+			        SELECT memnick, memfollower, memid
 			        FROM TB_member
 			        ORDER BY memfollower DESC NULLS LAST
 			    ) T
@@ -36,51 +36,51 @@
 	<sql id="selectRecMember">
 	<![CDATA[
 		SELECT flwid recommend, worth FROM (
-		    SELECT rownum rnum, F.* FROM (
-		        SELECT flwid, COUNT(flwid) worth FROM (
-		        
-		            SELECT flwid FROM tb_follow F, tb_member M
-		            WHERE 1=1
-		                AND F.memid = M.memid
-		                AND M.memid IN ( 
-		                    SELECT flwid FROM tb_follow F, tb_member M
-		                    WHERE 1=1
-		                    AND F.memid = M.memid
-		                    AND M.memid = #{memid}
-		                ) 
-		                AND flwid NOT IN (
-		                    SELECT flwid FROM tb_follow F, tb_member M
-		                    WHERE 1=1
-		                        AND F.memid = M.memid
-		                        AND M.memid = #{memid}
-		                )
-		
-		        )
-		        GROUP BY flwid
-		        ORDER BY worth desc
-		    ) F
-		) R
-		WHERE rnum <= 10
-		ORDER BY worth desc
+          SELECT rownum rnum, F.* FROM (
+              SELECT flwid, COUNT(flwid) worth FROM (
+              
+                  SELECT flwid FROM tb_follow F, tb_member M
+                  WHERE 1=1
+                      AND F.memid = M.memid
+                      AND M.memid IN ( 
+                          SELECT flwid FROM tb_follow F, tb_member M
+                          WHERE 1=1
+                          AND F.memid = M.memid
+                          AND M.memid = #{memid}
+                      ) 
+                      AND flwid NOT IN (
+                          SELECT flwid FROM tb_follow F, tb_member M
+                          WHERE 1=1
+                              AND F.memid = M.memid
+                              AND F.flwid = #{memid}
+                      )
+      
+              )
+              GROUP BY flwid
+              ORDER BY worth desc
+          ) F
+      ) R
+      WHERE rnum <= 10
+      ORDER BY worth desc
 	]]>
 	</sql>
 	
-	<select id="recMember" resultType="mvc.dto.FollowingRec">
+	<select id="recMember" parameterType="mvc.dto.Member"  resultType="mvc.dto.FollowingRec">
 		<include refid="selectRecMember"></include>
 	</select>
 	
-	<select id="countRecMember" resultType="int">
+	<select id="countRecMember" parameterType="mvc.dto.Member"  resultType="int">
 		SELECT COUNT(*) cnt FROM (
 			<include refid="selectRecMember"></include>
 		) CNT
 	</select>
 	
-	<sql id="selectFollower">
+	<sql id="selectFollower" >
 		<![CDATA[
 			SELECT memid FROM (
 			    SELECT rownum rnum, F.* FROM(
 			        SELECT memid FROM tb_follow
-			        where flwid=#{_value}
+			        where flwid=#{memid}
 			        ORDER BY memid
 			        )F
 			        ORDER BY rnum
@@ -89,11 +89,11 @@
 		]]>
 	</sql>
 	
-	<select id="follower" parameterType="String" resultType="mvc.dto.FollowingRec">
+	<select id="follower" parameterType="mvc.dto.Member" resultType="mvc.dto.FollowingRec">
 		<include refid="selectFollower"></include>
 	</select>
 	
-	<select id="countFolMember" resultType="int">
+	<select id="countFolMember" parameterType="mvc.dto.Member" resultType="int">
 		SELECT COUNT(*) cnt FROM (
 			<include refid="selectFollower"></include>
 		) CNT
@@ -105,7 +105,7 @@
 	</select>
 	
 	<select id="getMemberListBySearch" parameterType="mvc.dto.Member" resultType="mvc.dto.Member">
-		SELECT MEMNICK FROM TB_MEMBER WHERE MEMNICK LIKE '%'||#{search}||'%' AND MEMID 
+		SELECT MEMID FROM TB_MEMBER WHERE MEMNICK LIKE '%'||#{search}||'%' AND MEMID 
                             NOT IN (#{memid})
                             AND MEMID NOT IN (SELECT FLWID FROM TB_FOLLOW F
 		                    WHERE F.MEMID = #{memid})

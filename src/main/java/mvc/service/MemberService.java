@@ -76,8 +76,8 @@ public class MemberService {
 		memberDao.insertFollow(insertFollow);
 	}
 
-	public Member getMemberByNick(Member member) {
-		return memberDao.getMemberByNick(member);
+	public Member getMemberById(Member member) {
+		return memberDao.getMemberById(member);
 	}
 	
 	// 회원정보 상세

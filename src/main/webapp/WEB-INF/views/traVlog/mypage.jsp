@@ -39,15 +39,19 @@
 					<div class="userProfile">
 					<c:forEach items="${selectprofile}" var="f">
 						<img class="userimg" src="/resources/profileImage/${f.pfSavefile }">
+						<c:if test= "${f.memnick == sessionScope.memnick}">
 						<button class="profilebtn"
 							onclick="location.href='settingprofile.do'">프로필 편집</button>
+						</c:if>
+						<c:if test= "${f.memnick != sessionScope.memnick}">
+						<button class="profilebtn"
+							onclick="location.href='follow.do?flwid=${selectMember.memid}&flwnick=${selectMember.memnick}'">팔로우 하기</button>
+						</c:if>
 						<div class="usernick">${f.memnick }</div>
 						<div class="userinfo">${f.pfText }</div>
 						</c:forEach>
 						
 						<div class="setting">
-							<a onclick="showPopup();" style="cursor:pointer"><img class="messageimg"
-								src="/resources/images/icon/message.png" ></a>
 						 	<a href="sendmessage.do?memid=${selectMember.memid }"><img class="messageimg"
 								src="/resources/images/icon/message.png"></a><br>
 							 <a href="getmessage.do">
@@ -87,14 +91,13 @@
 							<c:forEach items="${selectpic }" var="i">
 								<c:if test="${i.bodno != null }">
 									<div class="pic col-md-4">
-										<a href="no${i.bodno }" onclick="contentview(${i.bodno });">
+										<a href="memnick=${selectMember.memnick}" onclick="contentview(${i.bodno });">
 											<img class="pic-src"
 											src="/resources/upload/${i.filsavefile }" alt="photo">
 										</a>
 									</div>
 								</c:if>
 							</c:forEach>
-
 
 						</div>
 					</div>
@@ -190,7 +193,8 @@
 		window.open("report.do?memnick='${memnick }'", 
 		"a", "width=400, height=300, left=100, top=50"
 				
-		);}
+		);
+		}
 	});
 	
 	function contentview(a){
@@ -201,7 +205,7 @@
 		          , url: "/traVlog/mycontent.do"
 		          , dataType: "html"
 		          , data: {
-		            bodno: bodno
+		            bodno: bodno, 
 		          }
 		          , success: function(data) {
 		    
@@ -216,10 +220,6 @@
 		
 		}
 	
-	
-	
-	
-
 </script>
 
 </html>

@@ -20,7 +20,7 @@
 	</select>
 	<insert id="insertHashTag" parameterType="mvc.dto.HashTag">
 		INSERT INTO TB_HASHTAG(TAGNO,TAGNAME,TAGHIT,TAGOPEN)
-		VALUES(UP_TAGNO_SEQ.NEXTVAL, #{tagname},0,'open')
+		VALUES(UP_TAGNO.NEXTVAL, #{tagname},0,'open')
 	</insert>
 	<update id="updateHashTagHit" parameterType="mvc.dto.HashTag">
 		UPDATE TB_HASHTAG SET TAGHIT = TAGHIT+1 WHERE TAGNAME=#{tagname}
