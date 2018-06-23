@@ -66,7 +66,6 @@ $(document).ready(function() {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 th, td {
@@ -75,9 +74,10 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -90,6 +90,11 @@ span {
 	width: 80%;
 	min-width: 1200px;
 	margin-left: 180px;
+}
+
+.pagename {
+	color: skyblue;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -105,6 +110,7 @@ span {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">공지사항 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -117,7 +123,7 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 공지사항 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 공지사항 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">
@@ -135,7 +141,7 @@ span {
 		<td>${i.notno }</td>
 		<td><a href="/Manage_Page/noticeview.do?notno=${i.notno }">${i.nottitle }</a></td>
 		<td>
-			<fmt:formatDate value="${i.notdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />
+			<fmt:formatDate value="${i.notdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />
 		</td>
 <%-- 		<td class="red"><input type="button" id="deleteBtn" class="btn btn-danger" value="삭제" onClick="location.href='/Manage_Page/deleteNotice.do?notno=${i.notno}'"></td> --%>
 		<td class="red"><input type="button" id="deleteBtn" class="btn btn-danger" value="삭제" onClick="deleteNotice('${i.notno}');"></td>

@@ -64,7 +64,6 @@ $(document).ready(function() {
 
 table {
 	width: 100%;
-	background-color: skyblue;
 }
 
 th, td {
@@ -73,9 +72,10 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -83,6 +83,11 @@ span {
 .red {color: red;}
 .greed {color: green;}
 .gray {color: gray;}
+
+.pagename {
+	color: skyblue;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 2px gold; */
+}
 
 </style>
 
@@ -97,6 +102,7 @@ span {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">결제 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -109,7 +115,7 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 결제 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 결제 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">
@@ -119,7 +125,7 @@ span {
 		<th>광고 번호</th>
 		<th>아이디</th>
 		<th>결제신청</th>
-		<th>결제처리 완료</th>
+		<th>처리 완료</th>
 		<th>결제 이름</th>
 		<th>결제 금액</th>
 		<th>결제 수단</th>
@@ -153,8 +159,8 @@ span {
 			<select class="form-control" id="paycondition${i.payno }" name="paycondition" size="1" onchange="updatePaymentCondition(${i.payno });">
 				<c:if test="${i.paycondition eq 0}">
 					<option value="0">결제상태 : 대기중</option>
-					<option value="1">승인(1)</option>
-					<option value="2">취소(2)</option>
+					<option value="1">승인</option>
+					<option value="2">취소</option>
 				</c:if>
 				<c:if test="${i.paycondition eq 1}">
 					<option value="1">결제상태 : 완료</option>

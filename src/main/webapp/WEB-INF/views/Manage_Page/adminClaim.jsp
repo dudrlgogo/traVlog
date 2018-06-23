@@ -58,7 +58,6 @@ $(document).ready(function() {
 table {
 	width: 100%;
 /* 	background-image: url('https://i.pinimg.com/originals/8a/c7/49/8ac749d3599a1cf70fb6f295c8af9608.jpg'); */
-	background-color: skyblue;
 }
 
 th, td {
@@ -67,15 +66,21 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
 
 .red {
 	color: red;
+}
+
+.pagename {
+	color: skyblue;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -91,6 +96,7 @@ span {
 
 
 <div class="clearfix"></div>
+<h1 class="pagename">신고 관리</h1>
 <hr>
 
 <div class="form-inline text-center">
@@ -103,9 +109,9 @@ span {
 </div>
 
 <hr>
-<span class="pull-right">조회된 신고 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">조회된 신고 수 : ${paging.totalCount }</span>
 <br>
-<a href="/Manage_Page/claimPdfList.do">PDF로 출력하기</a>
+<!-- <a href="/Manage_Page/claimPdfList.do">PDF로 출력하기</a> -->
 
 <table class="table table-striped table-hover">
 <thead>

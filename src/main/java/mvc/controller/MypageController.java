@@ -93,7 +93,6 @@ public class MypageController {
 		List selectprofile = mypageService.getProfile(selectContent.getBodname());
 		
 		logger.info("이름:"+selectContent.getBodname());
-		logger.info("이름:"+selectprofile.get(0));
 		
 		model.addAttribute("selectprofile", selectprofile);
 		model.addAttribute("selectContent", selectContent);

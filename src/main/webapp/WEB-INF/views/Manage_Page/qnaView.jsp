@@ -15,6 +15,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
+<script type="text/javascript">
+
+$(document).ready(function() {
+	$("#back").click(function() {
+		history.back(-1);
+	})
+});
+
+</script>
+
 <style type="text/css">
 
 .container {
@@ -25,7 +35,8 @@
 
 .content{
 	margin:0 auto;
-	background: linear-gradient(20deg, skyblue, hotpink);
+ 	background: #eee; 
+	border: 3px outset skyblue;
 }
 
 .quscontent, .anscontent {
@@ -54,7 +65,7 @@
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 input, p {
@@ -85,12 +96,12 @@ input, p {
 
 
 <div class="form-group">
-	<label for="memid">문의 작성자</label><br>
+	<label for="memid">작성자 아이디</label><br>
 	<p id="memid" class="form-control"><a href="/Manage_Page/qnaList.do?memid=${qusView.memid }">${qusView.memid }</a></p>
 </div>
 
 <div class="form-group">
-	<label for="qusname">이건 뭐임?</label><br>
+	<label for="qusname">작성자 닉네임</label><br>
 	<input type="text" id="qusname" name="qusname" value="${qusView.qusname }" readonly="readonly" class="form-control"/>
 </div>
 
@@ -100,8 +111,8 @@ input, p {
 </div>
 
 <div class="form-group">
-	<label for="qusdate">작성일</label><br>
-<input type="text" id="qusdate" name="qusdate" value="<fmt:formatDate value="${qusView.qusdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />" readonly="readonly" class="form-control">
+	<label for="qusdate">작성일시</label><br>
+<input type="text" id="qusdate" name="qusdate" value="<fmt:formatDate value="${qusView.qusdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />" readonly="readonly" class="form-control">
 </div>
 
 
@@ -122,6 +133,7 @@ ${qusView.quscontent }<br>
 
 <c:if test="${ansView.anstitle ne null }">
 <div class="answer">
+<h1 class="pagename">문의사항 답변</h1><br>
 
 <div class="form-group" style="width: 66%">
 	<label for="anstitle">답변 제목</label><br>
@@ -130,14 +142,16 @@ ${qusView.quscontent }<br>
 
 <div class="form-group">
 	<label for="ansdate">답변 작성일</label><br>
-<input type="text" id="ansdate" name="ansdate" value="<fmt:formatDate value="${ansView.ansdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />" readonly="readonly" class="form-control">
+<input type="text" id="ansdate" name="ansdate" value="<fmt:formatDate value="${ansView.ansdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />" readonly="readonly" class="form-control">
 </div>
 
 <div class="anscontent" id="anscontent">
 	<label for="anscontent"></label><br>
 ${ansView.anscontent }<br>
 </div>
-
+	
+	<button id="back" class="center-block btn-warning btn-lg">이전 페이지로 돌아가기</button>
+	
 </div>	<!-- answer END -->
 </c:if>
 

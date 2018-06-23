@@ -78,10 +78,6 @@
 					</c:if>
 				</button>
 				
-				<button>
-					<img class="comm" width="30px;"
-						src="/resources/images/icon/comment.png">
-				</button>
 
 				<!-- 보관기능 -->
 				<button id="pinBtn_${board.bodno}" class="btnPin"

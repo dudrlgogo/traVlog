@@ -23,9 +23,11 @@ th, td {
 
 th {
 	font-size: 18px;
+	background-color: skyblue;
 }
 
-span {
+
+#totalno {
 	color: blue;
 	font-size: 25px;
 }
@@ -50,7 +52,7 @@ span {
 
 <div class="clearfix"></div>
 <hr>
-<span class="pull-right">전체 문의사항 수 : ${paging.totalCount }</span>
+<span class="pull-right" id="totalno">전체 문의사항 수 : ${paging.totalCount }</span>
 <br>
 
 <table class="table table-striped table-hover">

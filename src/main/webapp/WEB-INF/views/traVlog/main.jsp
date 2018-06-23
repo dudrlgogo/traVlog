@@ -145,7 +145,7 @@ $(document).ready(function () {
        var maxHeight = $(document).height();
        var currentScroll = $(window).scrollTop() + $(window).height();
 
-       if (maxHeight <= currentScroll+100) {
+       if (maxHeight <= currentScroll+15) {
           var search = $("#search").val();
             console.log("search : "+$("#search").val());
           console.log("스크롤 도달")
@@ -498,10 +498,6 @@ $(document).ready(function () {
 						</c:if>
 					</button>
 
-					<button>
-						<img class="comm" width="30px;"
-							src="/resources/images/icon/comment.png">
-					</button>
 
 					<!-- 보관기능 -->
 					<button id="pinBtn_${board.bodno}" class="btnPin"
@@ -677,7 +673,7 @@ function showMap(bodno){
                <c:forEach items="${memberList}" var="mem">
                 <tbody>
                     <tr>
-                        <td class="memnick"><a href="#" class="memA">${mem.memnick}</a></td>
+                        <td class="memnick"><a href="/traVlog/mypage.do?memnick=${mem.memnick }" class="memA">${mem.memnick}</a></td>
                         <td class="memfollower">${mem.memfollower}</td>
                     </tr>
                 </tbody>

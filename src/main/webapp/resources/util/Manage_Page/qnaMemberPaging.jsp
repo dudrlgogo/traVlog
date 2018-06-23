@@ -29,7 +29,7 @@
   	<%-- 첫 페이지가 아닐 때 버튼 노출 --%>
   	<c:if test="${paging.curPage ne 1 }">
   	<li>
-  		<a href="/Manage_Page/memberQnaList.do?memid=${memid }&curPage=1">
+  		<a href="/Manage_Page/memberQnaList.do?memid=${paging.searchContent }&curPage=1">
   			<span>&larr;</span>
   		</a>
   	</li>
@@ -40,7 +40,7 @@
   	<%-- 첫 페이지면 금지 표시 --%>
   	<c:if test="${paging.curPage ne 1 }">
     <li>
-      <a href="/Manage_Page/memberQnaList.do?memid=${memid }&curPage=${paging.curPage-1 }" aria-label="Previous">
+      <a href="/Manage_Page/memberQnaList.do?memid=${paging.searchContent }&curPage=${paging.curPage-1 }" aria-label="Previous">
         <span>&laquo;</span>
       </a>
     </li>
@@ -57,10 +57,10 @@
     		 end="${paging.endPage }"
     		 var="page">
     <c:if test="${paging.curPage eq page }">
-    	<li class="active"><a href="/Manage_Page/memberQnaList.do?memid=${memid }&curPage=${page }">${page }</a></li>
+    	<li class="active"><a href="/Manage_Page/memberQnaList.do?memid=${paging.searchContent }&curPage=${page }">${page }</a></li>
     </c:if>
     <c:if test="${paging.curPage ne page }">
-    	<li><a href="/Manage_Page/memberQnaList.do?memid=${memid }&curPage=${page }">${page }</a></li>
+    	<li><a href="/Manage_Page/memberQnaList.do?memid=${paging.searchContent }&curPage=${page }">${page }</a></li>
     </c:if>
     </c:forEach>
     
@@ -69,7 +69,7 @@
     <%-- 마지막 페이지면 동작 안함 --%>
     <c:if test="${paging.curPage ne paging.totalPage }">
     <li>
-      <a href="/Manage_Page/memberQnaList.do?memid=${memid }&curPage=${paging.curPage+1 }" aria-label="Next">
+      <a href="/Manage_Page/memberQnaList.do?memid=${paging.searchContent }&curPage=${paging.curPage+1 }" aria-label="Next">
         <span>&raquo;</span>
       </a>
     </li>

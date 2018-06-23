@@ -23,20 +23,45 @@
 
 //‘저장’ 버튼을 누르는 등 저장을 위한 액션을 했을 때 submitContents가 호출된다고 가정한다.
 function submitContents(elClickedObj) {
+	
     // 에디터의 내용이 textarea에 적용된다.
     oEditors.getById["notcontent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-    // 에디터의 내용에 대한 값 검증은 이곳에서
-    // document.getElementById("ir1").value를 이용해서 처리한다.
-    try {
-        elClickedObj.form.submit();
-    } catch(e) {}
-}
+    // 유효성 검사
+ 	var nottitle = document.getElementById("nottitle").value;
+	var notcontent = $("#notcontent").val();
+	console.log(notcontent);
+    
+	 if(nottitle == "" || nottitle == null || nottitle == "&nbsp;" || nottitle == "<p>&nbsp;</p>" || nottitle == "<br>") {
+ 		alert("제목을 입력하세요.");
+ 		document.getElementById("nottitle").focus();
+ 		return false;
+	} else if(document.getElementById("nottitle").value.length >= 25) {
+ 		alert("제목 길이 제한 초과!!");
+ 		document.getElementById("nottitle").focus();
+		return false;
+	} else if(notcontent == "" || notcontent == null || notcontent == "&nbsp;" || notcontent == "<p>&nbsp;</p>" || notcontent == "<br>" || notcontent == "<p><br></p>") {
+		alert("본문 내용을 입력하세요.");
+		document.getElementById("notcontent").focus();
+		return false; 
+	} else if(document.getElementById("notcontent").value.length >= 2500) {
+		alert("본문 길이 제한 초과!!");
+		document.getElementById("notcontent").focus();
+		return false;
+	} else {
+		try {
+			alert("공지사항 작성 완료!!");
+			elClickedObj.form.submit();
+			return true;
 
+		} catch(e) {}	 
+ 	}
+}
+    
 $(document).ready(function() {
-	$("#btnWrite").click(function() {
-		submitContents($(this));
-	});
+// 	$("#btnWrite").click(function() {
+// 		submitContents($(this));
+// 	});
 	
 	$("#title").focus();
 	
@@ -48,6 +73,12 @@ $(document).ready(function() {
 
 </script>
 
+<style type="text/css">
+.pagename {
+	color: skyblue;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
+}
+</style>
 
 </head>
 <body>
@@ -58,10 +89,10 @@ $(document).ready(function() {
 
 <div class="container">
 <div class="content">
-<h1>공지사항 작성</h1>
+<h1 class="pagename">공지사항 작성</h1>
 <hr>
 
-<form action="/Manage_Page/noticeWrite.do" method="post" enctype="multipart/form-data">
+<form action="/Manage_Page/noticeWrite.do" method="post" enctype="multipart/form-data" onsubmit="submitContents()">
 
 <%-- <input type="hidden" id="notname" name="notname" value="${sessionScope.nickname }" /> --%>
 	
@@ -81,7 +112,7 @@ $(document).ready(function() {
 </div>
 
 	<!-- 가운데 정렬 class="center-block" -->
-	<button id="btnWrite" class="center-block btn-lg btn-success">작성</button>&nbsp;
+	<input type="button" id="btnWrite" class="center-block btn-lg btn-success" value="작성" onclick="submitContents(this)" />
 <!-- 	<a href="/board/list.do">목록으로</a> -->
 	
 </form>
@@ -100,7 +131,8 @@ nhn.husky.EZCreator.createInIFrame({
     htParams : {
     	bUseToolbar: true, // 툴바 사용여부
     	bUseVerticalResizer: false, //입력창 크기 조절바
-    	bUseModeChanger: true //모드 탭
+    	bUseModeChanger: true, //모드 탭
+    	fOnBeforeUnload : function(){}
     }
 });
 </script>

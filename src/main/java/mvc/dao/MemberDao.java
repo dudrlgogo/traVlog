@@ -63,4 +63,12 @@ public interface MemberDao {
 	public Member getMemberByMemId(Member member);
 
 	public Advertising getAdvertisingByAd(Advertising adInfo);
+
+	public void createMemberOption(Member member);
+
+	public int getMemberStatus(Member member);
+
+	public void updateMemlastconn(Member member);
+	
+
 }

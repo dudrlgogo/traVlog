@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -11,21 +11,14 @@
 <link href="/resources/css/setting.css" rel="stylesheet">
 
 <script type="text/javascript"
-	src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-	
-<style type="text/css">
-body {
-   background-image: url('/resources/images/BackGround/main.jpg');
-   background-repeat: no-repeat;
-   background-size: cover;
-}
+   src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+   
 
-</style>
 </head>
 
 <body>
 <div id="wrap">
-	
+   
 <jsp:include page="/resources/util/Page/header.jsp" />
 
 
@@ -35,46 +28,25 @@ body {
 <jsp:include page="/resources/util/Page/SettingSideMenu.jsp" />
 <div class="content-op">
 <div class="content">
-
-<!--  <table style="width: 70%;"> -->
-<!-- 	<tbody> -->
-<%-- 	<c:forEach var="row" items="${list}"> --%>
-<!-- 		<tr style="width: 100%;"> -->
-<%-- 			<td style="width: 33%;">${flwid }</td> --%>
-<%-- 			<td style="width: 33%;">${memid }</td> --%>
-<!-- 		</tr> -->
-<%-- 	</c:forEach> --%>
-<!-- 	</tbody> -->
-<!-- </table> -->
  
-    <div style="width: 30%; padding-top: 20px;">
+    <div style="width:250px; height:150px; border-right:1px solid black; float:left; padding-top: 30px; padding-left:20px; 
+    margin-right:10px; font-size:16px;">
     <h2>${memnick } 님이 팔로잉하는 회원</h2>
-		<c:forEach var="flwing" items="${list}">
+      <c:forEach var="flwing" items="${list}">
         <tr>
-            <td>${flwing.flwid }</td><br>
+            <td style="border-top:1px solid black;">${flwing.flwid }</td><br>
         </tr>
-		</c:forEach>
-    </div><br><br>
+      </c:forEach>
+    </div>
     
-        <div style="width: 30%;">
+        <div style="width:250px; height:150px; float:left; padding-top: 30px; padding-left:20px; font-size:16px;">
     <h2>${memnick } 님을 팔로우하는 회원</h2>
-		<c:forEach var="flwer" items="${list1}">
+      <c:forEach var="flwer" items="${list1}">
         <tr>
             <td>${flwer.memid }</td>
         </tr>
-		</c:forEach>
+      </c:forEach>
     </div> 
-    
- 
-<!--     <div style="width: 30%;"> -->
-<!--     <h2>팔로워 목록</h2> -->
-<%-- 		<c:forEach var="row" items="${list}"> --%>
-<!--         <tr> -->
-<%--             <td>${memid}</td> --%>
-<!--         </tr> -->
-<%-- 		</c:forEach> --%>
-<!--     </div>  -->
-
 
 </div><!-- End content -->
 </div>

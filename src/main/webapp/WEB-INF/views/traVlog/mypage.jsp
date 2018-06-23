@@ -51,15 +51,15 @@
 						<div class="userinfo">${f.pfText }</div>
 						</c:forEach>
 						
-						<div class="setting">
-						 	<a href="sendmessage.do?memid=${selectMember.memid }"><img class="messageimg"
-								src="/resources/images/icon/message.png"></a><br>
-							 <a href="getmessage.do">
-							<img class="messageimg"
-								src="/resources/images/icon/message.png"></a><br> 
+<!-- 						<div class="setting"> -->
+<%-- 						 	<a href="sendmessage.do?memid=${selectMember.memid }"><img class="messageimg" --%>
+<!-- 								src="/resources/images/icon/message.png"></a><br> -->
+<!-- 							 <a href="getmessage.do"> -->
+<!-- 							<img class="messageimg" -->
+<!-- 								src="/resources/images/icon/message.png"></a><br>  -->
 					
-							<a href="/traVlog/logout.do">로그아웃</a>
-						</div>
+<!-- 							<a href="/traVlog/logout.do">로그아웃</a> -->
+<!-- 						</div> -->
 						
 					</div>
 

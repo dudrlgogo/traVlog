@@ -34,6 +34,7 @@ public class MemberService {
 
 	public void createMember(Member member) {
 		memberDao.createMember(member);
+		memberDao.createMemberOption(member);
 	}
 
 	public int idcheck(String memid) {
@@ -154,6 +155,15 @@ public class MemberService {
 		return memberDao.getAdvertisingByAd(adInfo);
 	}
 
+	// 로그인 시 회원의 상태값 확인
+	public int getMemberStatus(Member member) {
+		
+		return memberDao.getMemberStatus(member);
+	}
 
+	// 
+	public void updateMemlastconn(Member member) {
+		memberDao.updateMemlastconn(member);
+	}
 
 }

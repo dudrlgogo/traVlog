@@ -23,15 +23,15 @@
 	</insert>
 	
 	<insert id="followAdmin" parameterType="mvc.dto.Member">
-      INSERT INTO tb_follow(memid, flwid) VALUES (#{memid}, 'travlog')
+      INSERT INTO tb_follow(memid, flwid) VALUES (#{memid}, 'tset1')
    </insert>
    
 	<select id="findId" parameterType="java.util.Map" resultType="String">
-		SELECT memid FROM TB_MEMBER where memname=#{idmemname} AND mememail=#{idmememail}
+		SELECT memid FROM TB_MEMBER where memnick=#{idmemname} AND mememail=#{idmememail}
 	</select>
 	
 	<select id="findPw" parameterType="HashMap" resultType="String">
-		SELECT mempassword FROM TB_MEMBER where memname=#{pwmemname} AND memid=#{pwmemid} AND mememail=#{pwmememail}
+		SELECT mempassword FROM TB_MEMBER where memnick=#{pwmemname} AND memid=#{pwmemid} AND mememail=#{pwmememail}
 	</select>
 	
 	<select id="MemberInfo" parameterType="String" resultType="mvc.dto.Member">
@@ -77,4 +77,15 @@
 		SELECT * FROM TB_MEMBER
 		WHERE MEMID=#{memid}
 	</select>
+	<insert id="createMemberOption" parameterType="mvc.dto.Member">
+		insert into tb_member_option(MEMID, MOPACCOUNT) values(#{memid}, 0)
+	</insert>
+	
+	<select id="getMemberStatus" parameterType="mvc.dto.Member" resultType="int">
+		SELECT mopaccount FROM tb_member_option WHERE memid = #{memid }
+	</select>
+	
+	<update id="updateMemlastconn" parameterType="mvc.dto.Member">
+		UPDATE tb_member SET memlastconn = sysdate WHERE memid = #{memid }
+	</update>
 </mapper>

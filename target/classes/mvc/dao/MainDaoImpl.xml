@@ -110,4 +110,10 @@
                             AND MEMID NOT IN (SELECT FLWID FROM TB_FOLLOW F
 		                    WHERE F.MEMID = #{memid})
 	</select>
+	
+	
+	
+	
+	
+	
 </mapper>

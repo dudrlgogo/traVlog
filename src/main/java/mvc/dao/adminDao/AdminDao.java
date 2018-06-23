@@ -32,7 +32,7 @@ public interface AdminDao {
 
 	public Board selectBoardByBoardno(Board board);
 
-	public Files selectFilesByBoardno(Board board);
+	public List selectFilesByBoardno(Board board);
 	
 	public int getTotalMember();
 	
@@ -74,10 +74,10 @@ public interface AdminDao {
 
 	public Answer selectAnswerByqusno(Question question);
 
-	public int getMemberQna(Question question);
+	public int getMemberQna(Paging searchContent);
 
 //	public List pagingMemberQnaList(Question question, Paging paging);
-	public List pagingMemberQnaList(Question question);
+	public List pagingMemberQnaList(Paging paging);
 
 	public void insertQnaAnswer(Answer answer);
 
@@ -130,6 +130,8 @@ public interface AdminDao {
 	public void updatePauseTimeReset();
 
 	public List getCommentListByBoardno(Board board);
+
+	public List getCommentsListByCommentno(Board board);
 
 
 

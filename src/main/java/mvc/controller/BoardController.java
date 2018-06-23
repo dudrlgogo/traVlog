@@ -80,11 +80,43 @@ public class BoardController {
 		if (memberService.memberCheck(member) == 1) {
 			//아이디와 네임 가져오기
 			Member sessionMember = memberService.getMemberOne(member);
+			// 로그인 시 회원 상태값 확인
+			int memstatus = memberService.getMemberStatus(member);
+			
 			// 로그인 .. memberService 가져오고 아이디와 이름 세션 생성
 			session.setAttribute("memid", sessionMember.getMemid());
 			session.setAttribute("memnick", sessionMember.getMemnick());
 			
-			return "redirect:/traVlog/main.do";
+			session.setAttribute("memstatus", memstatus);
+			
+			// 확인한 상태값으로 메시지 + 페이지 이동
+			if(memstatus == 9) {
+				session.setAttribute("login", true);
+				return "redirect:/Manage_Page/home.do";
+			} else if(memstatus == 1) {
+				session.invalidate();
+				model.addAttribute("msg","본 계정은 사용이 정지된 계정입니다.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+			} else if(memstatus == 2) {
+				session.invalidate();
+				model.addAttribute("msg","블록된 계정입니다.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+			} else if(memstatus == 3) {
+				session.invalidate();
+				model.addAttribute("msg","본 계정은 휴면상태 입니다. 관리자에 문의하세요.");
+				model.addAttribute("url","/traVlog/login.do");
+				return "util/alert";
+				
+			} 
+			else {
+				// 로그인 성공 시 회원의 마지막 접속일을 기록해둔다. (휴면계정 처리용)
+				session.setAttribute("login", true);
+				memberService.updateMemlastconn(member);
+				
+				return "redirect:/traVlog/main.do";
+			}
 			
 		} else {
 			model.addAttribute("msg","비밀번호가 맞지 않거나 없는 아이디 입니다.");

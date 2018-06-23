@@ -25,11 +25,12 @@
 
 .content{
 	margin:0 auto;
-	background: linear-gradient(20deg, skyblue, hotpink);
+ 	background: #eee; 
+	border: 3px outset skyblue;
 }
 
 .notcontent {
-	border: 5px ridge Yellow;
+	border: 5px ridge Black;
 /* 	상, 우, 하, 좌 padding */
 	padding: 20px 30px 20px 30px;
 }
@@ -41,7 +42,7 @@
 
 .pagename {
 	color: skyblue;
-	text-shadow: 3px 3px 3px black, 3px 3px 5px gold;
+/* 	text-shadow: 3px 3px 3px black, 3px 3px 5px gold; */
 }
 
 </style>
@@ -60,25 +61,27 @@
 <hr>
 </div><br>
 
-<div class="form-group" style="width: 15%">
+<div class="form-group" style="width: 10%">
 	<label for="notno">공지사항 번호</label><br>
 	<input type="text" id="notno" name="notno" value="${noticeView.notno }" readonly="readonly" class="form-control" />
 </div>
 
-<div class="form-group" style="width: 25%">
-	<label for="notdate">작성일</label><br>
-<input type="text" id="notdate" name="notdate" value="<fmt:formatDate value="${noticeView.notdate }" pattern="yyyy년MM월dd일 HH:mm:ss" />" readonly="readonly"  class="form-control">
-</div>
-
-<div class="form-group" style="width: 59%">
+<div class="form-group" style="width: 64%">
 	<label for="nottitle">제목</label><br>
 	<input type="text" id="nottitle" name="nottitle" value="${noticeView.nottitle }" readonly="readonly" class="form-control"/>
 </div>
 
-<div class="form-group">
-	<label for="notfile">첨부파일: </label>
-	<a href="/Manage_Page/nfdownload.do?notno=${noticeFile.notno }">${noticeFile.nforiginfile }</a><br>
-</div><br>
+<div class="form-group" style="width: 25%">
+	<label for="notdate">작성일</label><br>
+<input type="text" id="notdate" name="notdate" value="<fmt:formatDate value="${noticeView.notdate }" pattern="yyyy년 MM월 dd일 HH시 mm분 ss초" />" readonly="readonly"  class="form-control">
+</div>
+
+<c:if test="${noticeFile.nforiginfile ne null}">
+	<div class="form-group">
+		<label for="notfile">첨부파일: </label>
+		<a href="/Manage_Page/nfdownload.do?notno=${noticeFile.notno }">${noticeFile.nforiginfile }</a><br>
+	</div><br>
+</c:if>
 
 <div class="notcontent" id="notcontent">
 	<label for="notcontent"></label><br>

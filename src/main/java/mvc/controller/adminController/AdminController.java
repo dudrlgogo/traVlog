@@ -33,7 +33,6 @@ import mvc.service.adminService.AdminService;
 import mvc.util.Paging;
 
 @Controller
-@SessionAttributes({"nick", "id"})
 public class AdminController {
 
 	private static final Logger logger = LoggerFactory.getLogger(AdminController.class);
@@ -145,7 +144,7 @@ public class AdminController {
 		model.addAttribute("boardComentView", adminService.getCommentListByBoardno(board));
 
 		// 대댓글 불러오기
-//		model.addAttribute("boardComentsView", adminService.getCommentsList());
+//		model.addAttribute("boardComentsView", adminService.getCommentsList(board));
 		
 		return "Manage_Page/boardView";
 	}
@@ -221,8 +220,9 @@ public class AdminController {
 		String uID = UUID.randomUUID().toString().split("_")[0];
 		
 		// 파일이 저장될 경로
-		String realpath = context.getRealPath("upload");
+		String realpath = context.getRealPath("/resources/upload/");
 
+//		System.out.println("[Test] 공지사항 파일저장경로 확인 : "+realpath);
 		// 파일이 저장될 이름
 		String stored = file.getOriginalFilename()+"_"+uID;
 
@@ -260,9 +260,12 @@ public class AdminController {
 
 	// 공지사항 수정
 	@RequestMapping(value="/Manage_Page/noticeUpdate.do", method=RequestMethod.POST)
-	public String noticeUpdateProc(Notice notice) {
+	public String noticeUpdateProc(Notice notice, Model model) {
 		
 		adminService.updateNoticeByNoticeno(notice);
+
+		NoticeFile noticefile = adminService.downloadNoticeFile(notice);
+		model.addAttribute("noticeFile", noticefile);
 		
 		return "redirect:/Manage_Page/noticeManage.do";
 	}
@@ -271,7 +274,7 @@ public class AdminController {
 	@RequestMapping(value="/Manage_Page/nfdownload.do", method=RequestMethod.GET)
 	public ModelAndView noticeFileDownload(NoticeFile noticefile) {
 		
-		String path = context.getRealPath("upload");
+		String path = context.getRealPath("/resources/upload/");
 		String filename = adminService.getSavedNoticeFileName(noticefile);
 		
 		File notfile = new File(path, filename);
@@ -314,15 +317,19 @@ public class AdminController {
 
 	// 회원별 문의사항 목록 보기
 	@RequestMapping(value="/Manage_Page/memberQnaList.do", method=RequestMethod.GET)
-	public String memberQnaList(@RequestParam(defaultValue="0") int curPage, Question question, Model model) {
+	public String memberQnaList(@RequestParam(defaultValue="0") int curPage, Question question, Model model, Paging searchContent) {
 		
 		// 문의사항 목록
-		int totalCount = adminService.getMemberQna(question);
+		searchContent.setSearchContent(question.getMemid());
+		int totalCount = adminService.getMemberQna(searchContent);
 		
 		Paging paging = new Paging(totalCount, curPage);
+		paging.setSearchContent(searchContent.getSearchContent());
+//		System.out.println("[Test] 뭔가 나오나? 제발좀 : "+paging.getSearchContent());
 		model.addAttribute("paging", paging);		
 		
-		List list = adminService.getPagingMemberQnaList(question, paging);
+		
+		List list = adminService.getPagingMemberQnaList(paging);
 		model.addAttribute("list", list);
 		
 		return "Manage_Page/adminMemberQna";
@@ -345,9 +352,9 @@ public class AdminController {
 		
 		logger.info("문의사항 답변 작성!!");
 
-		System.out.println("[Test] 타이틀: "+answer.getAnstitle());
-		System.out.println("[Test] 내용: "+answer.getAnscontent());
-		System.out.println("[Test] 글번호: "+answer.getQusno());
+//		System.out.println("[Test] 타이틀: "+answer.getAnstitle());
+//		System.out.println("[Test] 내용: "+answer.getAnscontent());
+//		System.out.println("[Test] 글번호: "+answer.getQusno());
 		
 		adminService.insertQnaAnswer(answer);
 		

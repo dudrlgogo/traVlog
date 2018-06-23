@@ -23,23 +23,49 @@
 
 //‘저장’ 버튼을 누르는 등 저장을 위한 액션을 했을 때 submitContents가 호출된다고 가정한다.
 function submitContents(elClickedObj) {
+	
     // 에디터의 내용이 textarea에 적용된다.
     oEditors.getById["anscontent"].exec("UPDATE_CONTENTS_FIELD", []);
 
-    // 에디터의 내용에 대한 값 검증은 이곳에서
-    // document.getElementById("ir1").value를 이용해서 처리한다.
-    try {
-        elClickedObj.form.submit();
-    } catch(e) {}
+    var cusno = ${qusView.qusno };
+
+    // 유효성 검사
+ 	var nottitle = document.getElementById("anstitle").value;
+	var notcontent = $("#anscontent").val();
+	console.log(notcontent);
+    
+	 if(anstitle == "" || anstitle == null || anstitle == "&nbsp;" || anstitle == "<p>&nbsp;</p>" || anstitle == "<br>") {
+ 		alert("제목을 입력하세요.");
+ 		document.getElementById("anstitle").focus();
+ 		return false;
+	} else if(document.getElementById("anstitle").value.length >= 25) {
+ 		alert("제목 길이 제한 초과!!");
+ 		document.getElementById("anstitle").focus();
+		return false;
+	} else if(anscontent == "" || anscontent == null || anscontent == "&nbsp;" || anscontent == "<p>&nbsp;</p>" || anscontent == "<br>" || anscontent == "<p><br></p>") {
+		alert("본문 내용을 입력하세요.");
+		document.getElementById("anscontent").focus();
+		return false; 
+	} else if(document.getElementById("anscontent").value.length >= 2500) {
+		alert("본문 길이 제한 초과!!");
+		document.getElementById("anscontent").focus();
+		return false;
+	} else {
+		try {
+			alert(cusno+"번 문의사항 답변 완료!!");
+			elClickedObj.form.submit();
+			return true;
+
+		} catch(e) {}	 
+ 	}
 }
 
-var cusno = ${qusView.qusno };
 
 $(document).ready(function() {
-	$("#btnWrite").click(function() {
-		alert(cusno+"번 문의사항 답변 작성 완료!!");
-		submitContents($(this));
-	});
+// 	$("#btnWrite").click(function() {
+// 		alert(cusno+"번 문의사항 답변 작성 완료!!");
+// 		submitContents($(this));
+// 	});
 	
 	$("#title").focus();
 	
@@ -69,7 +95,7 @@ $(document).ready(function() {
 <h1>문의사항 답변 작성</h1>
 <hr>
 
-<form action="/Manage_Page/qnaAnswer.do?qusno=${qusView.qusno }" method="post">
+<form action="/Manage_Page/qnaAnswer.do?qusno=${qusView.qusno }" method="post" onsubmit="submitContents()">
 <%-- <div class="form-group">
 	<label for="writer">작성자</label><br>
 	<input type="text" id="writer" name="writer" value="${writer }" readonly="readonly" class="form-control"/>
@@ -91,7 +117,7 @@ $(document).ready(function() {
 
 <div class="form-group">
 	<div class="col-sm-offset-5 col-sm-10">
-		<button id="btnWrite" class="btn-success btn-lg">작성</button>
+		<input type="button" value="작성" id="btnWrite" class="btn-success btn-lg" onclick="submitContents(this)" />
 		<button id="cancel" class="btn-warning btn-lg">취소</button>
 	</div>
 </div>
@@ -116,7 +142,8 @@ nhn.husky.EZCreator.createInIFrame({
     htParams : {
     	bUseToolbar: true, // 툴바 사용여부
     	bUseVerticalResizer: false, //입력창 크기 조절바
-    	bUseModeChanger: true //모드 탭
+    	bUseModeChanger: true, //모드 탭
+    	fOnBeforeUnload : function(){}
     }
 });
 </script>

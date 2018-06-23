@@ -32,10 +32,8 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			logger.info("접근금지: 비로그인 상태에서 사용불가");
 			response.sendRedirect("/Manage_Page/Error.do");
 			return false;
-
-		// 로그인 시 session에 회원상태 값(일반,계정블록,관리자)을 확인 하는 메소드로 샅태값 저장 필요 
-		} else if( (Integer)session.getAttribute("memstatus") != 9 ) {
-			logger.info("접근금지: 권한이 없는 계정으로 접속!!");
+		} else if((Integer)session.getAttribute("memstatus") != 9) {
+			logger.info("접근금지: 접속 권한없음!!");
 			response.sendRedirect("/Manage_Page/Error.do");			
 			return false;
 		}
